@@ -24,6 +24,7 @@ características morfológicas.
 )
 st.divider()
 st.subheader("Selecione ou digite as características observadas")
+st.image("")
 entrada_usuario = {}
 num_colunas = 3
 cols = st.columns(num_colunas)

@@ -1,9 +1,3 @@
-# ==========================================================
-# IDENTIFICADOR DE ESPÉCIES DE DROSOPHILA
-# Sistema baseado em regras (sem Machine Learning)
-# Tiago Henrique - 15-03-2026
-# ==========================================================
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -12,6 +6,7 @@ import numpy as np
 def carregar_dados():
     df = pd.read_csv("chave.csv")
     return df
+    
 df = carregar_dados()
 coluna_especie = df.columns[0]
 caracteristicas = df.columns[1:]

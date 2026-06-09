@@ -22,6 +22,9 @@ Sistema digital de identificação taxonômica baseado em
 características morfológicas.
 """
 )
+st.warning("Teste")
+st.success("Teste")
+st.info("Teste")
 st.divider()
 st.subheader("Selecione ou digite as características observadas")
 entrada_usuario = {}

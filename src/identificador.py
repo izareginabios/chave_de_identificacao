@@ -6,8 +6,17 @@ CAMINHO_DADOS = Path(__file__).parent.parent / "data" / "chave.csv"
 
 
 def carregar_dados() -> pd.DataFrame:
-    """Carrega a base de dados da chave taxonômica a partir do CSV."""
-    return pd.read_csv(CAMINHO_DADOS)
+    """
+    Carrega a base de dados da chave taxonômica a partir do CSV.
+    Remove espaços extras dos valores de texto para evitar duplicatas
+    nas opções exibidas na interface (o CSV original não é alterado).
+    """
+    df = pd.read_csv(CAMINHO_DADOS)
+    # Aplica strip() em todas as colunas de texto — corrige entradas como
+    # 'castanho ' e 'castanho', ' castanho mel' e 'castanho mel', etc.
+    colunas_texto = df.select_dtypes(include="object").columns
+    df[colunas_texto] = df[colunas_texto].apply(lambda col: col.str.strip())
+    return df
 
 
 def calcular_similaridade(linha: pd.Series, entrada: dict, caracteristicas) -> float:

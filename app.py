@@ -3,8 +3,11 @@ import pandas as pd
 from pathlib import Path
 from src.identificador import carregar_dados, calcular_similaridade
 
+# Raiz do projeto resolvida a partir do próprio app.py (independente do diretório de execução)
+RAIZ = Path(__file__).parent
+
 # Versão do aplicativo
-VERSAO = Path("VERSION").read_text().strip()
+VERSAO = (RAIZ / "VERSION").read_text().strip()
 
 # Configura a página para usar a largura total da tela
 st.set_page_config(
@@ -26,7 +29,7 @@ coluna_especie = df.columns[0]
 caracteristicas = df.columns[1:]
 
 # Caminho para as imagens de referência da prancha fotográfica
-PRANCHA = Path("prancha_fotografica")
+PRANCHA = RAIZ / "prancha_fotografica"
 
 # ── Cabeçalho ──────────────────────────────────────────────────────────────────
 st.title("Identificador de Espécies de Drosofílideos")

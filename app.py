@@ -1,9 +1,16 @@
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 from src.identificador import carregar_dados, calcular_similaridade
 
+# Versão do aplicativo
+VERSAO = Path("VERSION").read_text().strip()
+
 # Configura a página para usar a largura total da tela
-st.set_page_config(layout="wide")
+st.set_page_config(
+    page_title="Identificador de Drosofílideos",
+    layout="wide",
+)
 
 
 # Cache para evitar recarregar o CSV a cada interação
@@ -18,8 +25,12 @@ df = obter_dados()
 coluna_especie = df.columns[0]
 caracteristicas = df.columns[1:]
 
+# Caminho para as imagens de referência da prancha fotográfica
+PRANCHA = Path("prancha_fotografica")
+
 # ── Cabeçalho ──────────────────────────────────────────────────────────────────
 st.title("Identificador de Espécies de Drosofílideos")
+st.caption(f"versão {VERSAO}")
 st.write(
     "Sistema digital de identificação taxonômica baseado em características morfológicas."
 )
@@ -39,6 +50,26 @@ cols = st.columns(num_colunas)
 
 for i, c in enumerate(caracteristicas):
     with cols[i % num_colunas]:
+
+        # Popover de referência fotográfica para a característica Coloração
+        if c.lower() == "coloração":
+            imagem_coloracao = PRANCHA / "coloracao_referencia.jpg"
+            with st.popover("📷 ver referência fotográfica"):
+                st.markdown("**Coloração do corpo em Drosophila**")
+                st.image(
+                    str(imagem_coloracao),
+                    caption=(
+                        "Drosophila melanogaster — coloração amarela típica do grupo melanogaster. "
+                        "Foto: André Karwath (CC BY-SA 2.5, Wikimedia Commons)"
+                    ),
+                    use_container_width=True,
+                )
+                st.markdown(
+                    "- **amarela** — corpo amarelo-claro a ocre\n"
+                    "- **escura** — corpo castanho-escuro a enegrecido\n"
+                    "- **acastanhada** — tom intermediário, acastanhado"
+                )
+
         # Índice costal aceita valor numérico livre; demais usam selectbox
         if c.lower() == "i. costal":
             valor = st.text_input(c, placeholder="Digite o valor observado")

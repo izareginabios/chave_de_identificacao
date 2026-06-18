@@ -16,63 +16,37 @@ FOTOS_REFERENCIA = {
 # ── Configuração da página ─────────────────────────────────────────────────────
 st.set_page_config(page_title="Identificador de Drosofílideos", layout="wide")
 
-# CSS: alinha o botão ⓘ com o label do campo ao lado
-st.markdown(
+
+# ── Popover bimodal de referência fotográfica ─────────────────────────────────
+def popover_referencia(caracteristica: str, caminho_imagem: Path) -> None:
     """
-    <style>
-    /* Empurra o botão ⓘ para baixo para alinhar com o label do selectbox */
-    [data-testid="stColumn"] [data-testid="stButton"] button {
-        margin-top: 1.55rem;
-        padding: 0.15rem 0.5rem;
-        font-size: 0.9rem;
-        min-height: 2.1rem;
-        border-radius: 0.5rem;
-        width: 100%;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-
-# ── Modal de referência fotográfica ───────────────────────────────────────────
-@st.dialog("Referência Fotográfica", width="large")
-def mostrar_referencia(caracteristica: str, caminho_imagem: Path) -> None:
+    Popover bimodal: painel esquerdo com a foto, painel direito com o zoom.
+    Abre como flutuante ao clicar no botão ⓘ — sem tomar a página inteira.
     """
-    Abre um modal com a foto de referência da característica.
-    O botão X para fechar é fornecido automaticamente pelo st.dialog.
-    """
-    st.markdown(f"**Característica: {caracteristica}**")
+    with st.popover(f"ⓘ  {caracteristica}", use_container_width=False):
+        painel_foto, painel_zoom = st.columns([0.7, 0.3])
 
-    # Barra de zoom
-    zoom = st.slider(
-        "🔍 Zoom",
-        min_value=25,
-        max_value=200,
-        value=100,
-        step=25,
-        format="%d%%",
-    )
-    # Largura base de 650 px ajustada pelo zoom
-    largura = int(650 * zoom / 100)
+        with painel_zoom:
+            st.markdown("**🔍 Zoom**")
+            zoom = st.slider(
+                "zoom",
+                min_value=25,
+                max_value=200,
+                value=100,
+                step=25,
+                format="%d%%",
+                label_visibility="collapsed",
+                key=f"zoom_{caracteristica}",
+            )
+            st.caption(
+                "Drosophila melanogaster  \n"
+                "André Karwath  \n"
+                "CC BY-SA 2.5, Wikimedia Commons"
+            )
 
-    st.image(
-        str(caminho_imagem),
-        width=largura,
-        caption=(
-            "Drosophila melanogaster — André Karwath "
-            "(CC BY-SA 2.5, Wikimedia Commons)"
-        ),
-    )
-
-    # Legenda explicativa das opções de coloração
-    if caracteristica.lower() == "coloração":
-        st.markdown(
-            "**Opções de coloração:**\n\n"
-            "- 🟡 **amarela** — corpo amarelo-claro a ocre\n"
-            "- ⚫ **escura** — corpo castanho-escuro a enegrecido\n"
-            "- 🟤 **acastanhada** — tom intermediário acastanhado"
-        )
+        with painel_foto:
+            largura = int(420 * zoom / 100)
+            st.image(str(caminho_imagem), width=largura)
 
 
 # ── Dados ──────────────────────────────────────────────────────────────────────
@@ -108,25 +82,16 @@ for i, c in enumerate(caracteristicas):
     with cols[i % num_colunas]:
         tem_foto = c.lower() in FOTOS_REFERENCIA
 
+        # Popover bimodal fica acima do campo quando há foto disponível
         if tem_foto:
-            # Coluna larga para o campo + coluna estreita para o ⓘ
-            col_campo, col_info = st.columns([0.83, 0.17])
+            popover_referencia(c, FOTOS_REFERENCIA[c.lower()])
+
+        # Campo de entrada da característica
+        if c.lower() == "i. costal":
+            valor = st.text_input(c, placeholder="Digite o valor observado")
         else:
-            col_campo = st.container()
-
-        with col_campo:
-            # Índice costal aceita valor numérico livre; demais usam selectbox
-            if c.lower() == "i. costal":
-                valor = st.text_input(c, placeholder="Digite o valor observado")
-            else:
-                opcoes = df[c].dropna().unique()
-                valor  = st.selectbox(c, ["Desconhecido"] + list(opcoes), key=c)
-
-        if tem_foto:
-            with col_info:
-                # Abre o modal ao clicar no ⓘ
-                if st.button("ⓘ", key=f"info_{c}", help="Ver referência fotográfica"):
-                    mostrar_referencia(c, FOTOS_REFERENCIA[c.lower()])
+            opcoes = df[c].dropna().unique()
+            valor  = st.selectbox(c, ["Desconhecido"] + list(opcoes), key=c)
 
         entrada_usuario[c] = valor
 

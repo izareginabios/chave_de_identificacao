@@ -12,10 +12,15 @@ def carregar_dados() -> pd.DataFrame:
     nas opções exibidas na interface (o CSV original não é alterado).
     """
     df = pd.read_csv(CAMINHO_DADOS)
-    # Aplica strip() em todas as colunas de texto — corrige entradas como
-    # 'castanho ' e 'castanho', ' castanho mel' e 'castanho mel', etc.
+    # Normaliza espaços em todas as colunas de texto:
+    # - remove espaços no início e no fim (strip)
+    # - colapsa espaços duplos internos para um único espaço
+    # Corrige casos como 'castanho  (mel)' e 'castanho (mel)',
+    # 'finas  (escuras)' e 'finas (escuras)', etc.
     colunas_texto = df.select_dtypes(include="object").columns
-    df[colunas_texto] = df[colunas_texto].apply(lambda col: col.str.strip())
+    df[colunas_texto] = df[colunas_texto].apply(
+        lambda col: col.str.strip().str.replace(r"\s+", " ", regex=True)
+    )
     return df
 
 

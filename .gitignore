@@ -1,1 +1,10 @@
 Gemini.md
+install.sh
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+.DS_Store

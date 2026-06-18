@@ -9,9 +9,29 @@ VERSAO  = (RAIZ / "VERSION").read_text().strip()
 PRANCHA = RAIZ / "prancha_fotografica"
 
 # Mapeamento: nome da característica (minúsculas) → imagem de referência
+# Mapeamento principal: característica → imagem única (para campos simples)
 FOTOS_REFERENCIA = {
     "coloração": PRANCHA / "coloracao_referencia.jpg",
 }
+
+# Abas por opção de coloração: (label da aba, imagem, crédito)
+ABAS_COLORACAO = [
+    (
+        "🟡 Amarela",
+        PRANCHA / "coloracao_referencia.jpg",
+        "Drosophila melanogaster — André Karwath (CC BY-SA 2.5, Wikimedia Commons)",
+    ),
+    (
+        "⚫ Escura",
+        PRANCHA / "escura_referencia.jpg",
+        "Drosophila busckii (Wikimedia Commons)",
+    ),
+    (
+        "🟤 Acastanhada",
+        PRANCHA / "acastanhada_referencia.jpg",
+        "Drosophila immigrans (Wikimedia Commons)",
+    ),
+]
 
 # ── Configuração da página ─────────────────────────────────────────────────────
 st.set_page_config(page_title="Identificador de Drosofílideos", layout="wide")
@@ -39,39 +59,44 @@ st.markdown(
 @st.dialog("Referência Fotográfica", width="large")
 def mostrar_referencia(caracteristica: str, caminho_imagem: Path) -> None:
     """
-    Abre um modal com a foto de referência da característica.
+    Modal com foto de referência e slider de zoom.
+    Para Coloração: exibe três abas (Amarela / Escura / Acastanhada).
     O botão X para fechar é fornecido automaticamente pelo st.dialog.
     """
     st.markdown(f"**Característica: {caracteristica}**")
 
-    # Barra de zoom
-    zoom = st.slider(
-        "🔍 Zoom",
-        min_value=25,
-        max_value=200,
-        value=100,
-        step=25,
-        format="%d%%",
-    )
-    # Largura base de 650 px ajustada pelo zoom
-    largura = int(650 * zoom / 100)
-
-    st.image(
-        str(caminho_imagem),
-        width=largura,
-        caption=(
-            "Drosophila melanogaster — André Karwath "
-            "(CC BY-SA 2.5, Wikimedia Commons)"
-        ),
-    )
-
-    # Legenda explicativa das opções de coloração
     if caracteristica.lower() == "coloração":
-        st.markdown(
-            "**Opções de coloração:**\n\n"
-            "- 🟡 **amarela** — corpo amarelo-claro a ocre\n"
-            "- ⚫ **escura** — corpo castanho-escuro a enegrecido\n"
-            "- 🟤 **acastanhada** — tom intermediário acastanhado"
+        # Uma aba por opção de coloração
+        abas = st.tabs([label for label, _, _ in ABAS_COLORACAO])
+        for aba, (label, img_path, credito) in zip(abas, ABAS_COLORACAO):
+            with aba:
+                zoom = st.slider(
+                    "🔍 Zoom",
+                    min_value=25,
+                    max_value=200,
+                    value=100,
+                    step=25,
+                    format="%d%%",
+                    key=f"zoom_{label}",
+                )
+                st.image(
+                    str(img_path),
+                    width=int(620 * zoom / 100),
+                    caption=credito,
+                )
+    else:
+        # Imagem única para outras características
+        zoom = st.slider(
+            "🔍 Zoom",
+            min_value=25,
+            max_value=200,
+            value=100,
+            step=25,
+            format="%d%%",
+        )
+        st.image(
+            str(caminho_imagem),
+            width=int(620 * zoom / 100),
         )
 
 

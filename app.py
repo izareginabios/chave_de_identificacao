@@ -8,30 +8,57 @@ RAIZ    = Path(__file__).parent
 VERSAO  = (RAIZ / "VERSION").read_text().strip()
 PRANCHA = RAIZ / "prancha_fotografica"
 
-# Mapeamento: nome da característica (minúsculas) → imagem de referência
-# Mapeamento principal: característica → imagem única (para campos simples)
-FOTOS_REFERENCIA = {
-    "coloração": PRANCHA / "coloracao_referencia.jpg",
+# Atalho para a pasta de características observadas
+OBS = PRANCHA / "caracteristicas_observadas"
+
+# Configuração das abas por característica:
+# { nome_em_minúsculas: [ (label_aba, título_acima_imagem, caminho_imagem) ] }
+ABAS_POR_CARACTERISTICA = {
+    "coloração": [
+        (
+            "🟡 Amarela",
+            "Coloração amarela — corpo amarelo-claro a ocre",
+            PRANCHA / "coloracao_referencia.jpg",
+        ),
+        (
+            "⚫ Escura",
+            "Coloração escura — corpo castanho-escuro a enegrecido",
+            PRANCHA / "escura_referencia.jpg",
+        ),
+        (
+            "🟤 Acastanhada",
+            "Coloração acastanhada — tom intermediário acastanhado",
+            PRANCHA / "acastanhada_referencia.jpg",
+        ),
+    ],
+    "c.p. escutelares": [
+        (
+            "✅ Sim — Presentes",
+            "Cerdas pré-escutelares presentes",
+            OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_presentes.jpg",
+        ),
+        (
+            "❌ Não — Ausentes",
+            "Cerdas pré-escutelares ausentes",
+            OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_ausentes.jpg",
+        ),
+    ],
+    "c.escutelares": [
+        (
+            "↔ Convergente",
+            "Cerdas escutelares anteriores convergentes",
+            OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_convergentes.jpg",
+        ),
+        (
+            "↗ Divergente",
+            "Cerdas escutelares anteriores divergentes",
+            OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_divergentes.jpg",
+        ),
+    ],
 }
 
-# Abas por opção de coloração: (label da aba, imagem, crédito)
-ABAS_COLORACAO = [
-    (
-        "🟡 Amarela",
-        PRANCHA / "coloracao_referencia.jpg",
-        "Drosophila melanogaster — André Karwath (CC BY-SA 2.5, Wikimedia Commons)",
-    ),
-    (
-        "⚫ Escura",
-        PRANCHA / "escura_referencia.jpg",
-        "Drosophila busckii (Wikimedia Commons)",
-    ),
-    (
-        "🟤 Acastanhada",
-        PRANCHA / "acastanhada_referencia.jpg",
-        "Drosophila immigrans (Wikimedia Commons)",
-    ),
-]
+# Conjunto de características que possuem referência fotográfica
+FOTOS_REFERENCIA = set(ABAS_POR_CARACTERISTICA.keys())
 
 # ── Configuração da página ─────────────────────────────────────────────────────
 st.set_page_config(page_title="Identificador de Drosofílideos", layout="wide")
@@ -57,47 +84,40 @@ st.markdown(
 
 # ── Modal de referência fotográfica ───────────────────────────────────────────
 @st.dialog("Referência Fotográfica", width="large")
-def mostrar_referencia(caracteristica: str, caminho_imagem: Path) -> None:
+def mostrar_referencia(caracteristica: str) -> None:
     """
-    Modal com foto de referência e slider de zoom.
-    Para Coloração: exibe três abas (Amarela / Escura / Acastanhada).
+    Modal com abas por opção da característica.
+    Cada aba mostra: título descritivo → slider de zoom → imagem.
     O botão X para fechar é fornecido automaticamente pelo st.dialog.
     """
-    st.markdown(f"**Característica: {caracteristica}**")
+    abas_config = ABAS_POR_CARACTERISTICA[caracteristica.lower()]
+    abas = st.tabs([label for label, _, _ in abas_config])
 
-    if caracteristica.lower() == "coloração":
-        # Uma aba por opção de coloração
-        abas = st.tabs([label for label, _, _ in ABAS_COLORACAO])
-        for aba, (label, img_path, credito) in zip(abas, ABAS_COLORACAO):
-            with aba:
+    for aba, (label, titulo, img_path) in zip(abas, abas_config):
+        with aba:
+            # Título acima da imagem indicando o que ela representa
+            st.markdown(f"### {titulo}")
+            st.divider()
+
+            col_img, col_ctrl = st.columns([0.75, 0.25])
+
+            with col_ctrl:
+                st.markdown("**🔍 Zoom**")
                 zoom = st.slider(
-                    "🔍 Zoom",
+                    "zoom",
                     min_value=25,
                     max_value=200,
                     value=100,
                     step=25,
                     format="%d%%",
-                    key=f"zoom_{label}",
+                    label_visibility="collapsed",
+                    key=f"zoom_{caracteristica}_{label}",
                 )
-                st.image(
-                    str(img_path),
-                    width=int(620 * zoom / 100),
-                    caption=credito,
-                )
-    else:
-        # Imagem única para outras características
-        zoom = st.slider(
-            "🔍 Zoom",
-            min_value=25,
-            max_value=200,
-            value=100,
-            step=25,
-            format="%d%%",
-        )
-        st.image(
-            str(caminho_imagem),
-            width=int(620 * zoom / 100),
-        )
+                st.caption(f"{zoom}%")
+
+            with col_img:
+                largura = int(580 * zoom / 100)
+                st.image(str(img_path), width=largura)
 
 
 # ── Dados ──────────────────────────────────────────────────────────────────────
@@ -149,9 +169,8 @@ for i, c in enumerate(caracteristicas):
 
         if tem_foto:
             with col_info:
-                # Abre o modal ao clicar no ⓘ
                 if st.button("ⓘ", key=f"info_{c}", help="Ver referência fotográfica"):
-                    mostrar_referencia(c, FOTOS_REFERENCIA[c.lower()])
+                    mostrar_referencia(c)
 
         entrada_usuario[c] = valor
 

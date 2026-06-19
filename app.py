@@ -69,22 +69,26 @@ st.markdown("""
     border-radius: 0.4rem !important;
 }
 
-/* Botão ⓘ — alinhado com o campo, discreto */
+/* Botão ⓘ — sem frame, sem fundo, apenas ícone */
 [data-testid="stButton"] button[title="Ver referência fotográfica"] {
-    padding: 0 0.4rem;
-    font-size: 0.9rem;
-    min-height: 1.8rem;
-    height: 1.8rem;
-    border-radius: 50%;
-    background-color: #dce8f7;
-    color: #1a3d6e;
-    border: 1px solid #b0c8e8;
+    padding: 0;
+    font-size: 1rem;
+    min-height: unset;
+    height: auto;
+    border-radius: 0;
+    background: none !important;
+    color: inherit !important;
+    border: none !important;
+    box-shadow: none !important;
     line-height: 1;
-    margin-top: 0;
+    opacity: 0.55;
+    cursor: pointer;
 }
 [data-testid="stButton"] button[title="Ver referência fotográfica"]:hover {
-    background-color: #1a3d6e;
-    color: white;
+    opacity: 1;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Botão principal */
@@ -112,7 +116,7 @@ def mostrar_referencia(caracteristica: str) -> None:
         with aba:
             # Título acima da imagem
             st.markdown(
-                f"<h4 style='text-align:center; color:#1a3d6e; margin-bottom:0.8rem;'>"
+                f"<h4 style='text-align:center; color:inherit; opacity:0.85; margin-bottom:0.8rem;'>"
                 f"{titulo}</h4>",
                 unsafe_allow_html=True,
             )
@@ -164,10 +168,10 @@ st.markdown(f"""
 st.markdown("""
 <div style="background:white; border-radius:0.75rem; padding:1.2rem 1.8rem 0.2rem;
             box-shadow:0 1px 5px rgba(0,0,0,0.07); margin-bottom:1rem;">
-    <h3 style="margin:0 0 0.15rem; color:#1a3d6e; font-size:1.05rem; font-weight:600;">
+    <h3 style="margin:0 0 0.15rem; color:inherit; font-size:1.05rem; font-weight:600;">
         📋 Características observadas
     </h3>
-    <p style="margin:0 0 0.8rem; color:#555; font-size:0.87rem;">
+    <p style="margin:0 0 0.8rem; color:inherit; opacity:0.65; font-size:0.87rem;">
         Selecione as características do espécime. Clique em <strong>ⓘ</strong>
         ao lado do nome para ver a referência fotográfica.
     </p>
@@ -187,8 +191,8 @@ for i, c in enumerate(caracteristicas):
             col_nome, col_btn = st.columns([0.82, 0.18])
             with col_nome:
                 st.markdown(
-                    f"<p style='margin:0 0 2px; font-size:0.875rem; "
-                    f"font-weight:600; color:#31333F;'>{c}</p>",
+                    f"<p style='margin:0; font-size:0.875rem; "
+                    f"font-weight:600; color:inherit;'>{c}</p>",
                     unsafe_allow_html=True,
                 )
             with col_btn:
@@ -269,7 +273,7 @@ if identificar:
     foto_esp = FOTOS_ESPECIES.get(nome_especie.lower().strip())
     if foto_esp and foto_esp.exists():
         st.markdown(
-            f"<h4 style='color:#1a3d6e; margin-bottom:0.5rem;'>"
+            f"<h4 style='color:inherit; margin-bottom:0.5rem;'>"
             f"🖼️ Prancha fotográfica — <em>{nome_especie}</em></h4>",
             unsafe_allow_html=True,
         )
@@ -278,13 +282,13 @@ if identificar:
             st.image(str(foto_esp), caption=nome_especie, use_container_width=True)
         with col_info:
             st.markdown(f"""
-            <div style="background:#f8f9fc; border-left:4px solid #1a3d6e;
+            <div style="background:rgba(26,61,110,0.06); border-left:4px solid #2d6aad;
                         padding:1rem 1.2rem; border-radius:0 0.5rem 0.5rem 0;
                         margin-top:0.5rem;">
-                <p style="margin:0; font-size:0.95rem; color:#1a3d6e; font-weight:600;">
+                <p style="margin:0; font-size:0.95rem; color:inherit; font-weight:600;">
                     {nome_especie}
                 </p>
-                <p style="margin:0.4rem 0 0; font-size:0.88rem; color:#444;">
+                <p style="margin:0.4rem 0 0; font-size:0.88rem; color:inherit; opacity:0.75;">
                     Similaridade: <strong>{sim_pct}%</strong>
                 </p>
             </div>

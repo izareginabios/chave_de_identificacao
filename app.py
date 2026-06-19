@@ -11,20 +11,19 @@ OBS     = PRANCHA / "caracteristicas_observadas"
 ESP     = PRANCHA / "imagens_dos_drosofilideos"
 
 # ── Abas do modal por característica ──────────────────────────────────────────
-# { característica_minúscula: [ (label_aba, título_acima, imagem) ] }
 ABAS_POR_CARACTERISTICA = {
     "coloração": [
-        ("🟡 Amarela",     "Coloração amarela",     PRANCHA / "coloracao_referencia.jpg"),
-        ("⚫ Escura",      "Coloração escura",       PRANCHA / "escura_referencia.jpg"),
-        ("🟤 Acastanhada", "Coloração acastanhada",  PRANCHA / "acastanhada_referencia.jpg"),
+        ("Amarela",     "Coloração amarela",     PRANCHA / "coloracao_referencia.jpg"),
+        ("Escura",      "Coloração escura",       PRANCHA / "escura_referencia.jpg"),
+        ("Acastanhada", "Coloração acastanhada",  PRANCHA / "acastanhada_referencia.jpg"),
     ],
     "c.p. escutelares": [
-        ("✅ Presentes", "Cerdas pré-escutelares presentes",   OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_presentes.jpg"),
-        ("❌ Ausentes",  "Ausência de cerdas pré-escutelares", OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_ausentes.jpg"),
+        ("Presentes", "Cerdas pré-escutelares presentes",   OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_presentes.jpg"),
+        ("Ausentes",  "Ausência de cerdas pré-escutelares", OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_ausentes.jpg"),
     ],
     "c.escutelares": [
-        ("↔ Convergente", "Cerdas escutelares anteriores convergentes", OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_convergentes.jpg"),
-        ("↗ Divergente",  "Cerdas escutelares anteriores divergentes",  OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_divergentes.jpg"),
+        ("Convergente", "Cerdas escutelares anteriores convergentes", OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_convergentes.jpg"),
+        ("Divergente",  "Cerdas escutelares anteriores divergentes",  OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_divergentes.jpg"),
     ],
 }
 
@@ -69,26 +68,17 @@ st.markdown("""
     border-radius: 0.4rem !important;
 }
 
-/* Botão ⓘ — sem frame, sem fundo, apenas ícone */
+/* Botão ⓘ — remove todos os estilos do framework */
 [data-testid="stButton"] button[title="Ver referência fotográfica"] {
-    padding: 0;
-    font-size: 1rem;
-    min-height: unset;
-    height: auto;
-    border-radius: 0;
-    background: none !important;
-    color: inherit !important;
-    border: none !important;
-    box-shadow: none !important;
-    line-height: 1;
-    opacity: 0.55;
+    all: unset;
     cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.45;
+    line-height: 1;
+    display: inline;
 }
 [data-testid="stButton"] button[title="Ver referência fotográfica"]:hover {
-    opacity: 1;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
+    opacity: 0.9;
 }
 
 /* Botão principal */
@@ -105,34 +95,29 @@ button[kind="primary"] {
 # ── Modal de referência fotográfica ───────────────────────────────────────────
 @st.dialog("Referência Fotográfica", width="large")
 def mostrar_referencia(caracteristica: str) -> None:
-    """
-    Modal com abas por opção da característica.
-    Imagem centralizada, zoom abaixo da imagem.
-    """
     abas_config = ABAS_POR_CARACTERISTICA[caracteristica.lower()]
     abas = st.tabs([label for label, _, _ in abas_config])
 
     for aba, (label, titulo, img_path) in zip(abas, abas_config):
         with aba:
-            # Título acima da imagem
             st.markdown(
-                f"<h4 style='text-align:center; color:inherit; opacity:0.85; margin-bottom:0.8rem;'>"
+                f"<h4 style='text-align:center; color:inherit; opacity:0.85; margin-bottom:0.6rem;'>"
                 f"{titulo}</h4>",
                 unsafe_allow_html=True,
             )
-            # Imagem centralizada
-            col_l, col_c, col_r = st.columns([0.08, 0.84, 0.08])
+            # Imagem enquadrada em coluna central — largura moderada por padrão
+            col_l, col_c, col_r = st.columns([0.2, 0.6, 0.2])
             with col_c:
-                zoom = st.session_state.get(f"zoom_{caracteristica}_{label}", 100)
-                st.image(str(img_path), width=int(640 * zoom / 100))
+                zoom = st.session_state.get(f"zoom_{caracteristica}_{label}", 75)
+                st.image(str(img_path), width=int(480 * zoom / 100))
 
             # Zoom abaixo da imagem
-            st.markdown("<div style='height:0.3rem'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height:0.2rem'></div>", unsafe_allow_html=True)
             col_zl, col_zm, col_zr = st.columns([0.2, 0.6, 0.2])
             with col_zm:
-                novo_zoom = st.slider(
-                    "🔍 Zoom",
-                    min_value=25, max_value=150, value=100, step=25,
+                st.slider(
+                    "Zoom",
+                    min_value=25, max_value=150, value=75, step=25,
                     format="%d%%",
                     key=f"zoom_{caracteristica}_{label}",
                 )
@@ -143,8 +128,8 @@ def mostrar_referencia(caracteristica: str) -> None:
 def obter_dados() -> pd.DataFrame:
     return carregar_dados()
 
-df             = obter_dados()
-coluna_especie = df.columns[0]
+df              = obter_dados()
+coluna_especie  = df.columns[0]
 caracteristicas = df.columns[1:]
 
 # ── Cabeçalho ─────────────────────────────────────────────────────────────────
@@ -155,7 +140,7 @@ st.markdown(f"""
     margin-bottom: 1.5rem; box-shadow: 0 3px 12px rgba(26,61,110,0.3);
 ">
     <h1 style="margin:0 0 0.35rem; font-size:1.9rem; font-weight:700;">
-        🪰 Identificador de Espécies de Drosofílideos
+        Identificador de Espécies de Drosofílideos
     </h1>
     <p style="margin:0; font-size:1rem; opacity:0.88;">
         Sistema digital de identificação taxonômica baseado em características morfológicas
@@ -169,7 +154,7 @@ st.markdown("""
 <div style="background:white; border-radius:0.75rem; padding:1.2rem 1.8rem 0.2rem;
             box-shadow:0 1px 5px rgba(0,0,0,0.07); margin-bottom:1rem;">
     <h3 style="margin:0 0 0.15rem; color:inherit; font-size:1.05rem; font-weight:600;">
-        📋 Características observadas
+        Características observadas
     </h3>
     <p style="margin:0 0 0.8rem; color:inherit; opacity:0.65; font-size:0.87rem;">
         Selecione as características do espécime. Clique em <strong>ⓘ</strong>
@@ -187,7 +172,6 @@ for i, c in enumerate(caracteristicas):
         tem_foto = c.lower() in FOTOS_REFERENCIA
 
         if tem_foto:
-            # Nome da característica + botão ⓘ na mesma linha
             col_nome, col_btn = st.columns([0.82, 0.18])
             with col_nome:
                 st.markdown(
@@ -199,7 +183,6 @@ for i, c in enumerate(caracteristicas):
                 if st.button("ⓘ", key=f"info_{c}", help="Ver referência fotográfica"):
                     mostrar_referencia(c)
 
-            # Campo sem label (já foi mostrado acima)
             if c.lower() == "i. costal":
                 valor = st.text_input(
                     c, placeholder="Digite o valor numérico",
@@ -212,7 +195,6 @@ for i, c in enumerate(caracteristicas):
                     label_visibility="collapsed", key=c,
                 )
         else:
-            # Campo normal com label nativo do Streamlit
             if c.lower() == "i. costal":
                 valor = st.text_input(c, placeholder="Digite o valor numérico")
             else:
@@ -226,7 +208,7 @@ st.markdown("<div style='margin-top:1.2rem'></div>", unsafe_allow_html=True)
 # ── Botão de identificação ─────────────────────────────────────────────────────
 col_btn, _ = st.columns([0.22, 0.78])
 with col_btn:
-    identificar = st.button("🔍 Identificar Espécie", type="primary", use_container_width=True)
+    identificar = st.button("Identificar Espécie", type="primary", use_container_width=True)
 
 st.divider()
 
@@ -244,7 +226,7 @@ if identificar:
     melhor     = resultados.iloc[0]
 
     if melhor["Similaridade"] == 0:
-        st.warning("⚠️ Dados insuficientes. Selecione pelo menos uma característica.")
+        st.warning("Dados insuficientes. Selecione pelo menos uma característica.")
         st.stop()
 
     sim_pct      = round(melhor["Similaridade"] * 100, 1)
@@ -274,7 +256,7 @@ if identificar:
     if foto_esp and foto_esp.exists():
         st.markdown(
             f"<h4 style='color:inherit; margin-bottom:0.5rem;'>"
-            f"🖼️ Prancha fotográfica — <em>{nome_especie}</em></h4>",
+            f"Prancha fotográfica — <em>{nome_especie}</em></h4>",
             unsafe_allow_html=True,
         )
         col_foto, col_info = st.columns([0.55, 0.45])
@@ -296,17 +278,17 @@ if identificar:
         st.markdown("<div style='margin-bottom:1rem'></div>", unsafe_allow_html=True)
 
     # Top 5
-    st.markdown("#### 🔬 Espécies com maior similaridade")
+    st.markdown("#### Espécies com maior similaridade")
     top5 = resultados.head(5).copy()
     top5["Similaridade (%)"] = (top5["Similaridade"] * 100).round(1)
     st.dataframe(top5[["Espécie", "Similaridade (%)"]], use_container_width=True, hide_index=True)
 
     # Ranking completo expansível
-    with st.expander("📊 Ver ranking completo"):
+    with st.expander("Ver ranking completo"):
         ranking = resultados.copy()
         ranking["Similaridade (%)"] = (ranking["Similaridade"] * 100).round(1)
         st.dataframe(ranking[["Espécie", "Similaridade (%)"]], use_container_width=True, hide_index=True)
 
     # Gráfico
-    st.markdown("#### 📈 Gráfico de similaridade")
+    st.markdown("#### Gráfico de similaridade")
     st.bar_chart(resultados.set_index("Espécie")["Similaridade"])

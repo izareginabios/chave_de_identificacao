@@ -12,23 +12,26 @@ PRANCHA = RAIZ / "prancha_fotografica"
 OBS = PRANCHA / "caracteristicas_observadas"
 
 # Configuração das abas por característica:
-# { nome_em_minúsculas: [ (label_aba, título_acima_imagem, caminho_imagem) ] }
+# { nome_em_minúsculas: [ (label_aba, título_acima, caminho_imagem, descrição_ao_lado) ] }
 ABAS_POR_CARACTERISTICA = {
     "coloração": [
         (
             "🟡 Amarela",
-            "Coloração amarela — corpo amarelo-claro a ocre",
+            "Coloração amarela",
             PRANCHA / "coloracao_referencia.jpg",
+            "Corpo de coloração amarela,\namarelo-claro a ocre.\nEx.: D. melanogaster",
         ),
         (
             "⚫ Escura",
-            "Coloração escura — corpo castanho-escuro a enegrecido",
+            "Coloração escura",
             PRANCHA / "escura_referencia.jpg",
+            "Corpo de coloração escura,\ncastanho-escuro a enegrecido.\nEx.: D. busckii",
         ),
         (
             "🟤 Acastanhada",
-            "Coloração acastanhada — tom intermediário acastanhado",
+            "Coloração acastanhada",
             PRANCHA / "acastanhada_referencia.jpg",
+            "Corpo de tom intermediário\nacastanhado.\nEx.: D. immigrans",
         ),
     ],
     "c.p. escutelares": [
@@ -36,11 +39,13 @@ ABAS_POR_CARACTERISTICA = {
             "✅ Sim — Presentes",
             "Cerdas pré-escutelares presentes",
             OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_presentes.jpg",
+            "Cerdas pré-escutelares\npresentes",
         ),
         (
             "❌ Não — Ausentes",
-            "Cerdas pré-escutelares ausentes",
+            "Ausência de cerdas pré-escutelares",
             OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_ausentes.jpg",
+            "Ausência de cerdas\npré-escutelares",
         ),
     ],
     "c.escutelares": [
@@ -48,11 +53,13 @@ ABAS_POR_CARACTERISTICA = {
             "↔ Convergente",
             "Cerdas escutelares anteriores convergentes",
             OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_convergentes.jpg",
+            "Cerdas escutelares\nanteriores convergentes",
         ),
         (
             "↗ Divergente",
             "Cerdas escutelares anteriores divergentes",
             OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_divergentes.jpg",
+            "Cerdas escutelares\nanteriores divergentes",
         ),
     ],
 }
@@ -91,33 +98,40 @@ def mostrar_referencia(caracteristica: str) -> None:
     O botão X para fechar é fornecido automaticamente pelo st.dialog.
     """
     abas_config = ABAS_POR_CARACTERISTICA[caracteristica.lower()]
-    abas = st.tabs([label for label, _, _ in abas_config])
+    abas = st.tabs([label for label, _, _, _ in abas_config])
 
-    for aba, (label, titulo, img_path) in zip(abas, abas_config):
+    for aba, (label, titulo, img_path, descricao) in zip(abas, abas_config):
         with aba:
             # Título acima da imagem indicando o que ela representa
             st.markdown(f"### {titulo}")
             st.divider()
 
-            col_img, col_ctrl = st.columns([0.75, 0.25])
+            col_img, col_ctrl = st.columns([0.72, 0.28])
 
             with col_ctrl:
+                # Descrição do que a imagem mostra
+                st.markdown(
+                    f"<p style='font-size:0.95rem; line-height:1.5; "
+                    f"padding:0.6rem 0.8rem; background:#f0f2f6; "
+                    f"border-radius:0.4rem; margin-bottom:1rem;'>"
+                    f"{descricao.replace(chr(10), '<br>')}</p>",
+                    unsafe_allow_html=True,
+                )
                 st.markdown("**🔍 Zoom**")
                 zoom = st.slider(
                     "zoom",
                     min_value=25,
-                    max_value=200,
+                    max_value=150,
                     value=100,
                     step=25,
                     format="%d%%",
                     label_visibility="collapsed",
                     key=f"zoom_{caracteristica}_{label}",
                 )
-                st.caption(f"{zoom}%")
 
             with col_img:
-                largura = int(580 * zoom / 100)
-                st.image(str(img_path), width=largura)
+                # Largura base 650 px — proporcional ao zoom selecionado
+                st.image(str(img_path), width=int(650 * zoom / 100))
 
 
 # ── Dados ──────────────────────────────────────────────────────────────────────

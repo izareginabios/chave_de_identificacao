@@ -25,6 +25,17 @@ ABAS_POR_CARACTERISTICA = {
         ("Convergente", "Cerdas escutelares anteriores convergentes", OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_convergentes.jpg"),
         ("Divergente",  "Cerdas escutelares anteriores divergentes",  OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_divergentes.jpg"),
     ],
+    "c.cuneiformis": [
+        ("Presentes", "Fileira de cerdas cuneiformes na parte interna do 1º fêmur", OBS / "4c_cuneiformis" / "4_fileira_de_cerdas_cuneiformes_na_parte_interna_do_primeiro_femur.jpg"),
+        ("Ausentes",  "Sem cerdas cuneiformes no fêmur",                            OBS / "4c_cuneiformis" / "4_sem_cerdas_cuneiformes_no_femur.jpg"),
+    ],
+    "pentes sexuais": [
+        ("Presentes",    "Pentes sexuais presentes",                              OBS / "5pentes_sexuais" / "5_pentes_sexuais.jpg"),
+        ("Distribuídos", "Pentes sexuais distribuídos ao longo dos tarsos do macho", OBS / "5pentes_sexuais" / "5_pentes_sexuais_distribuidos_ao_longo_dos_tarsos_do_macho.jpg"),
+    ],
+    "i. costal": [
+        ("Referência", "Índice costal — referência de medição", OBS / "6i_costal" / "6_indice_costal..jpg"),
+    ],
 }
 
 FOTOS_REFERENCIA = set(ABAS_POR_CARACTERISTICA.keys())

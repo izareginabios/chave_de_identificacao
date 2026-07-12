@@ -101,7 +101,7 @@ FOTOS_ESPECIES = {
 
 # ── Configuração da página ─────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Chave de identificação ilustrada de Drosofilídeos com ocorrência na região Neotropical",
+    page_title="Chave de identificação ilustrada de drosofilídeos com ocorrência na região Neotropical",
     page_icon=None,
     layout="wide",
 )
@@ -276,7 +276,7 @@ st.markdown(f"""
     margin-bottom: 1.5rem; box-shadow: 0 3px 12px rgba(26,61,110,0.3);
 ">
     <h1 style="margin:0 0 0.35rem; font-size:3.0rem; font-weight:700;">
-        Chave de identificação ilustrada de Drosofilídeos com ocorrência na região Neotropical
+        Chave de identificação ilustrada de drosofilídeos com ocorrência na região Neotropical
     </h1>
     <p style="margin:0.6rem 0 0; font-size:1.56rem; opacity:0.55;">versão {VERSAO}</p>
 </div>

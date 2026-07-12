@@ -101,12 +101,87 @@ st.markdown("""
     opacity: 0.9;
 }
 
+/* Selectbox — container fechado */
+[data-baseweb="select"] > div:first-child {
+    min-height: 3.5rem !important;
+    align-items: center !important;
+    padding: 0.4rem 0.8rem !important;
+    box-sizing: border-box !important;
+    margin-top: 0 !important;
+}
+
+/* Input — margem top igual ao selectbox */
+[data-baseweb="input"] > div {
+    margin-top: 0.5rem !important;
+}
+
+/* Espaçamento entre campos */
+[data-testid="stSelectbox"],
+[data-testid="stTextInput"] {
+    margin-bottom: 1.8rem !important;
+}
+
+/* Selectbox — todo texto interno */
+[data-baseweb="select"],
+[data-baseweb="select"] *,
+[data-baseweb="select"] div,
+[data-baseweb="select"] span,
+[data-baseweb="select"] p {
+    font-size: 1.50rem !important;
+    line-height: 2.2rem !important;
+}
+
+/* Input (I. costal) */
+[data-baseweb="input"] {
+    min-height: 3.5rem !important;
+    align-items: center !important;
+    margin-top: 0 !important;
+    box-sizing: border-box !important;
+}
+[data-baseweb="input"] input {
+    font-size: 1.50rem !important;
+    line-height: 2.2rem !important;
+    padding: 0.4rem 0.8rem !important;
+}
+
+/* Opções do menu aberto */
+[data-baseweb="menu"] li,
+[data-baseweb="menu"] [role="option"],
+[data-baseweb="popover"] li,
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="menu"] *,
+[data-baseweb="popover"] * {
+    font-size: 1.50rem !important;
+    line-height: 2.2rem !important;
+    padding-top: 0.65rem !important;
+    padding-bottom: 0.65rem !important;
+}
+
 /* Botão principal */
 button[kind="primary"] {
-    background: linear-gradient(135deg, #1a3d6e 0%, #2d6aad 100%) !important;
+    background: linear-gradient(135deg, #1b6f3c 0%, #28a056 100%) !important;
     border: none !important;
-    font-weight: 600 !important;
-    box-shadow: 0 2px 6px rgba(26,61,110,0.25) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 6px 20px rgba(27,111,60,0.45) !important;
+    font-size: 1.75rem !important;
+    line-height: 2.5rem !important;
+    padding: 1.4rem 3rem !important;
+    min-height: 6rem !important;
+    border-radius: 0.75rem !important;
+    width: 100% !important;
+    transition: box-shadow 0.2s, transform 0.15s !important;
+}
+button[kind="primary"]:hover {
+    box-shadow: 0 10px 30px rgba(27,111,60,0.55) !important;
+    transform: translateY(-2px) !important;
+}
+button[kind="primary"] p,
+button[kind="primary"] span,
+button[kind="primary"] div {
+    font-size: 1.75rem !important;
+    font-weight: 800 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -169,12 +244,9 @@ st.markdown(f"""
     padding: 2rem 2.5rem; border-radius: 0.85rem; color: white;
     margin-bottom: 1.5rem; box-shadow: 0 3px 12px rgba(26,61,110,0.3);
 ">
-    <h1 style="margin:0 0 0.35rem; font-size:1.9rem; font-weight:700;">
+    <h1 style="margin:0 0 0.35rem; font-size:3.0rem; font-weight:700;">
         Chave de identificação ilustrada de Drosofilídeos com ocorrência na região Neotropical
     </h1>
-    <p style="margin:0; font-size:2rem; opacity:0.88;">
-        Sistema digital de identificação taxonômica baseado em características morfológicas
-    </p>
     <p style="margin:0.6rem 0 0; font-size:1.56rem; opacity:0.55;">versão {VERSAO}</p>
 </div>
 """, unsafe_allow_html=True)
@@ -184,10 +256,10 @@ st.markdown("""
 <div style="background:var(--secondary-background-color); border-radius:0.75rem;
             padding:1.2rem 1.8rem 0.2rem;
             box-shadow:0 1px 5px rgba(0,0,0,0.07); margin-bottom:1rem;">
-    <h3 style="margin:0 0 0.15rem; color:inherit; font-size:2.1rem; font-weight:600;">
-        Características observadas
+    <h3 style="margin:0 0 0.15rem; color:inherit; font-size:2.0rem; font-weight:600;">
+        Caracteres observados
     </h3>
-    <p style="margin:0 0 0.8rem; color:inherit; opacity:0.65; font-size:1.74rem;">
+    <p style="margin:0 0 0.8rem; color:inherit; opacity:0.65; font-size:1.75rem;">
         Selecione as características do espécime. Clique em <strong>ⓘ</strong>
         ao lado do nome para ver a referência fotográfica.
     </p>
@@ -195,57 +267,61 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 entrada_usuario = {}
-num_colunas = 3
-cols = st.columns(num_colunas)
+cols = st.columns(3, gap="medium")
 
 for i, c in enumerate(caracteristicas):
-    with cols[i % num_colunas]:
+    with cols[i % 3]:
         tem_foto        = c.lower() in FOTOS_REFERENCIA
         tem_placeholder = c.lower() in PLACEHOLDERS_REFERENCIA
+        label_display   = c.capitalize() if c.lower() == "colaração escura últimos tergitos (macho)" else c
 
+        # ── Bloco label + ⓘ na mesma linha ──
         if tem_foto or tem_placeholder:
-            col_nome, col_btn = st.columns([0.82, 0.18])
-            with col_nome:
+            col_label, col_btn = st.columns([0.88, 0.12])
+            with col_label:
                 st.markdown(
-                    f"<p style='margin:0; font-size:0.875rem; "
-                    f"font-weight:600; color:inherit;'>{c}</p>",
+                    f"<div style='min-height:4.5rem; display:flex; align-items:flex-end; padding-bottom:0.15rem;'>"
+                    f"<span style='font-size:2.0rem; font-weight:600; color:inherit; "
+                    f"line-height:1.3;'>{label_display}</span></div>",
                     unsafe_allow_html=True,
                 )
             with col_btn:
+                st.markdown("<div style='min-height:4.5rem; display:flex; align-items:flex-end; padding-bottom:0.3rem;'>", unsafe_allow_html=True)
                 if st.button("ⓘ", key=f"info_{c}", help="Ver referência fotográfica"):
                     if tem_foto:
                         mostrar_referencia(c)
                     else:
                         mostrar_placeholder(c)
-
-            if c.lower() == "i. costal":
-                valor = st.text_input(
-                    c, placeholder="Digite o valor numérico",
-                    label_visibility="collapsed", key=f"input_{c}",
-                )
-            else:
-                opcoes = df[c].dropna().unique()
-                if c.lower() == "coloração":
-                    opcoes = [o for o in opcoes if o.lower() != "acastanhada"]
-                valor = st.selectbox(
-                    c, ["Desconhecido"] + list(opcoes),
-                    label_visibility="collapsed", key=c,
-                )
+                st.markdown("</div>", unsafe_allow_html=True)
         else:
-            if c.lower() == "i. costal":
-                valor = st.text_input(c, placeholder="Digite o valor numérico")
-            else:
-                opcoes = df[c].dropna().unique()
-                if c.lower() == "coloração":
-                    opcoes = [o for o in opcoes if o.lower() != "acastanhada"]
-                valor = st.selectbox(c, ["Desconhecido"] + list(opcoes), key=c)
+            st.markdown(
+                f"<div style='min-height:4.5rem; display:flex; align-items:flex-end; padding-bottom:0.15rem;'>"
+                f"<span style='font-size:2.0rem; font-weight:600; color:inherit; "
+                f"line-height:1.3;'>{label_display}</span></div>",
+                unsafe_allow_html=True,
+            )
+
+        # ── Campo (dropdown ou input) ──
+        if c.lower() == "i. costal":
+            valor = st.text_input(
+                c, placeholder="Digite o valor numérico",
+                label_visibility="collapsed", key=f"input_{c}",
+            )
+        else:
+            opcoes = df[c].dropna().unique()
+            if c.lower() == "coloração":
+                opcoes = [o for o in opcoes if o.lower() != "acastanhada"]
+            valor = st.selectbox(
+                c, ["Desconhecido"] + list(opcoes),
+                label_visibility="collapsed", key=c,
+            )
 
         entrada_usuario[c] = valor
 
 st.markdown("<div style='margin-top:1.2rem'></div>", unsafe_allow_html=True)
 
 # ── Botão de identificação ─────────────────────────────────────────────────────
-col_btn, _ = st.columns([0.22, 0.78])
+_, col_btn, _ = st.columns([0.25, 0.50, 0.25])
 with col_btn:
     identificar = st.button("Identificar Espécie", type="primary", use_container_width=True)
 
@@ -278,10 +354,10 @@ if identificar:
         color: white; padding: 1.3rem 1.8rem; border-radius: 0.75rem;
         margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(27,111,60,0.25);
     ">
-        <p style="margin:0 0 0.2rem; font-size:0.82rem; opacity:0.8; font-weight:500; letter-spacing:.05em;">
+        <p style="margin:0 0 0.2rem; font-size:0.41rem; opacity:0.8; font-weight:500; letter-spacing:.05em;">
             ESPÉCIE MAIS PROVÁVEL
         </p>
-        <p style="margin:0; font-size:1.55rem; font-weight:700; font-style:italic;">
+        <p style="margin:0; font-size:4.65rem; font-weight:700; font-style:italic;">
             {nome_especie}
         </p>
         <p style="margin:0.3rem 0 0; font-size:0.95rem; opacity:0.9;">
@@ -317,17 +393,58 @@ if identificar:
         st.markdown("<div style='margin-bottom:1rem'></div>", unsafe_allow_html=True)
 
     # Top 5
-    st.markdown("#### Espécies com maior similaridade")
+    st.markdown(
+        "<h2 style='font-size:2.2rem; font-weight:700; margin:1.2rem 0 0.6rem;'>"
+        "Espécies com maior similaridade</h2>",
+        unsafe_allow_html=True,
+    )
     top5 = resultados.head(5).copy()
     top5["Similaridade (%)"] = (top5["Similaridade"] * 100).round(1)
-    st.dataframe(top5[["Espécie", "Similaridade (%)"]], use_container_width=True, hide_index=True)
+    rows_top5 = "".join(
+        f"<tr>"
+        f"<td style='font-size:1.5rem; padding:0.55rem 1rem; font-style:italic;'>{r['Espécie']}</td>"
+        f"<td style='font-size:1.5rem; padding:0.55rem 1rem; text-align:right;'>{r['Similaridade (%)']:.1f}%</td>"
+        f"</tr>"
+        for _, r in top5.iterrows()
+    )
+    st.markdown(
+        f"<table style='width:100%; border-collapse:collapse; margin-bottom:0.5rem;'>"
+        f"<thead><tr>"
+        f"<th style='font-size:1.2rem; padding:0.4rem 1rem; text-align:left; border-bottom:2px solid #aaa;'>Espécie</th>"
+        f"<th style='font-size:1.2rem; padding:0.4rem 1rem; text-align:right; border-bottom:2px solid #aaa;'>Similaridade (%)</th>"
+        f"</tr></thead><tbody>{rows_top5}</tbody></table>",
+        unsafe_allow_html=True,
+    )
 
     # Ranking completo expansível
     with st.expander("Ver ranking completo"):
         ranking = resultados.copy()
         ranking["Similaridade (%)"] = (ranking["Similaridade"] * 100).round(1)
-        st.dataframe(ranking[["Espécie", "Similaridade (%)"]], use_container_width=True, hide_index=True)
+        rows_rank = "".join(
+            f"<tr>"
+            f"<td style='font-size:1.4rem; padding:0.45rem 1rem; font-style:italic;'>{r['Espécie']}</td>"
+            f"<td style='font-size:1.4rem; padding:0.45rem 1rem; text-align:right;'>{r['Similaridade (%)']:.1f}%</td>"
+            f"</tr>"
+            for _, r in ranking.iterrows()
+        )
+        st.markdown(
+            f"<table style='width:100%; border-collapse:collapse;'>"
+            f"<thead><tr>"
+            f"<th style='font-size:1.2rem; padding:0.4rem 1rem; text-align:left; border-bottom:2px solid #aaa;'>Espécie</th>"
+            f"<th style='font-size:1.2rem; padding:0.4rem 1rem; text-align:right; border-bottom:2px solid #aaa;'>Similaridade (%)</th>"
+            f"</tr></thead><tbody>{rows_rank}</tbody></table>",
+            unsafe_allow_html=True,
+        )
 
     # Gráfico
-    st.markdown("#### Gráfico de similaridade")
-    st.bar_chart(resultados.set_index("Espécie")["Similaridade"])
+    st.markdown(
+        "<h2 style='font-size:2.2rem; font-weight:700; margin:1.2rem 0 0.6rem;'>"
+        "Gráfico de similaridade</h2>",
+        unsafe_allow_html=True,
+    )
+    import altair as alt
+    chart = alt.Chart(resultados).mark_bar().encode(
+        x=alt.X("Espécie:N", sort="-y", axis=alt.Axis(labelFontSize=16, titleFontSize=16, labelAngle=-45)),
+        y=alt.Y("Similaridade:Q", axis=alt.Axis(labelFontSize=16, titleFontSize=16)),
+    )
+    st.altair_chart(chart, use_container_width=True)

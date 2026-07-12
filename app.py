@@ -506,57 +506,34 @@ if identificar:
         </div>
         """, unsafe_allow_html=True)
 
-        with st.expander("! Guia para identificação de \"espécies crípticas\" — edeago e prancha"):
+        with st.expander("! Pranchas fotográficas das \"espécies crípticas\" sugeridas"):
             st.markdown("""
 **O que são "espécies crípticas"?**
 São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.
 Nos grupos *melanogaster*, *repleta*, *willistoni* e *saltans*, a distinção
-segura só é possível pela análise do **edeago** (órgão copulador masculino)
-e, quando disponível, pela **prancha fotográfica** da espécie.
-
----
-**Passo a passo:**
-1. Obtenha machos da progênie (F1) das fêmeas coletadas.
-2. Extraia e prepare o edeago conforme protocolo KOH / eugenol.
-3. Fotografe o edeago sob microscópio óptico.
-4. Compare com as pranchas da chave *Madi-Ravazzi et al. (2026)*.
+segura só é possível pela análise do **edeago** (órgão copulador masculino),
+pois os caracteres externos não permitem distingui-las com segurança.
             """)
             st.divider()
 
-            for nome_crit, grupo_crit in cripticas_top5:
-                chave = nome_crit.lower().strip().replace(" ", "_").replace(".", "")
-                st.markdown(
-                    f"<h4 style='margin:1rem 0 0.4rem; font-style:italic;'>{nome_crit}"
-                    f" <span style='color:#e67e22; font-size:0.85em;'>"
-                    f"(grupo {grupo_crit})</span></h4>",
-                    unsafe_allow_html=True,
-                )
-                col_ed, col_pr = st.columns(2)
-
-                # ── Edeago ──
-                with col_ed:
-                    st.markdown("**Edeago**")
-                    extensoes = ["jpg", "jpeg", "png", "tif", "tiff"]
-                    img_ed = next(
-                        (EDEAGOS / f"{chave}.{ext}" for ext in extensoes
-                         if (EDEAGOS / f"{chave}.{ext}").exists()),
-                        None,
+            # Exibe pranchas de TODAS as espécies crípticas sugeridas no top5
+            cols_pr = st.columns(len(cripticas_top5))
+            for col, (nome_crit, grupo_crit) in zip(cols_pr, cripticas_top5):
+                with col:
+                    st.markdown(
+                        f"<p style='text-align:center; font-style:italic; "
+                        f"font-size:1.1rem; font-weight:600; margin-bottom:0.3rem;'>"
+                        f"{nome_crit}<br>"
+                        f"<span style='color:#e67e22; font-size:0.85em; font-style:normal;'>"
+                        f"grupo {grupo_crit}</span></p>",
+                        unsafe_allow_html=True,
                     )
-                    if img_ed:
-                        st.image(str(img_ed), caption=f"Edeago — {nome_crit}",
-                                 use_container_width=True)
-                    else:
-                        st.info("Imagem do edeago não disponível para esta espécie.")
-
-                # ── Prancha ──
-                with col_pr:
-                    st.markdown("**Prancha fotográfica**")
                     img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
                     if img_pr and img_pr.exists():
-                        st.image(str(img_pr), caption=f"Prancha — {nome_crit}",
+                        st.image(str(img_pr), caption=nome_crit,
                                  use_container_width=True)
                     else:
-                        st.info("Prancha fotográfica não disponível para esta espécie.")
+                        st.info("Prancha não disponível.")
 
     # Gráfico
     st.markdown(

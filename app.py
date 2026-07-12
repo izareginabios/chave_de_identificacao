@@ -95,8 +95,12 @@ FOTOS_ESPECIES = {
     "d. malerkotliana": ESP / "d_malerkotliana (1).jpg",
     "d. mediopicta":    ESP / "d_mediopicta.jpg",
     "d. melanogaster":  ESP / "d_melanogaster.jpg",
-    "d. mercatorum":    ESP / "d_mercatorum (1).jpg",
-    "d. sturtevanti":   ESP / "d_sturtevanti.jpg",
+    "d. mercatorum":        ESP / "d_mercatorum (1).jpg",
+    "d. sturtevanti":       ESP / "d_sturtevanti.jpg",
+    "d. simulans":          ESP / "d_simulans.jpg",
+    "d. nasuta":            ESP / "D_nasuta (1).jpg",
+    "s. latifasciaeformis": ESP / "scaptodrosophila.jpg",
+    "d. kikkawai":          ESP / "d_kikkawai (1).jpg",
 }
 
 # ── Configuração da página ─────────────────────────────────────────────────────

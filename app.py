@@ -422,14 +422,10 @@ if identificar:
             """, unsafe_allow_html=True)
         st.markdown("<div style='margin-bottom:1rem'></div>", unsafe_allow_html=True)
 
-    # Top 5
-    st.markdown(
-        "<h2 style='font-size:2.2rem; font-weight:700; margin:1.2rem 0 0.6rem;'>"
-        "Espécies com maior similaridade</h2>",
-        unsafe_allow_html=True,
-    )
+    # ── Calcula top5 e espécies crípticas ────────────────────────────────────
     top5 = resultados.head(5).copy()
     top5["Similaridade (%)"] = (top5["Similaridade"] * 100).round(1)
+
     def badge_criptica(nome: str) -> str:
         g = grupo_criptico(nome)
         if g:
@@ -440,6 +436,68 @@ if identificar:
             )
         return ""
 
+    cripticas_top5 = [
+        (r["Espécie"], grupo_criptico(r["Espécie"]))
+        for _, r in top5.iterrows()
+        if grupo_criptico(r["Espécie"])
+    ]
+
+    # ── Alerta espécies crípticas (acima da tabela) ───────────────────────────
+    if cripticas_top5:
+        grupos_detectados = sorted({g for _, g in cripticas_top5})
+        nomes_detectados  = ", ".join(f"*{n}*" for n, _ in cripticas_top5)
+        st.markdown(f"""
+        <div style="background:#fff3cd; border-left:5px solid #e67e22;
+                    padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
+                    margin:1rem 0;">
+            <p style="margin:0 0 0.3rem; font-size:1.3rem; font-weight:700; color:#7d4e00;">
+                ! Atenção — "Espécies crípticas" detectadas nas sugestões
+            </p>
+            <p style="margin:0; font-size:1.1rem; color:#5a3800;">
+                {nomes_detectados} pertencem ao(s) grupo(s)
+                <strong>{', '.join(grupos_detectados)}</strong>,
+                considerados grupos de "espécies crípticas".
+                A identificação definitiva <strong>requer análise do edeago</strong>
+                (morfologia interna da terminália masculina),
+                pois os caracteres externos não permitem distingui-las com segurança.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
+            st.markdown("""
+**O que são "espécies crípticas"?**
+São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.
+Nos grupos *melanogaster*, *repleta*, *willistoni* e *saltans*, a distinção
+segura só é possível pela análise do **edeago** (órgão copulador masculino),
+pois os caracteres externos não permitem distingui-las com segurança.
+            """)
+            st.divider()
+
+            cols_pr = st.columns(len(cripticas_top5))
+            for col, (nome_crit, grupo_crit) in zip(cols_pr, cripticas_top5):
+                with col:
+                    st.markdown(
+                        f"<p style='text-align:center; font-style:italic; "
+                        f"font-size:1.1rem; font-weight:600; margin-bottom:0.3rem;'>"
+                        f"{nome_crit}<br>"
+                        f"<span style='color:#e67e22; font-size:0.85em; font-style:normal;'>"
+                        f"grupo {grupo_crit}</span></p>",
+                        unsafe_allow_html=True,
+                    )
+                    img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
+                    if img_pr and img_pr.exists():
+                        st.image(str(img_pr), caption=nome_crit,
+                                 use_container_width=True)
+                    else:
+                        st.info("Prancha não disponível.")
+
+    # ── Top 5 ─────────────────────────────────────────────────────────────────
+    st.markdown(
+        "<h2 style='font-size:2.2rem; font-weight:700; margin:1.2rem 0 0.6rem;'>"
+        "Espécies com maior similaridade</h2>",
+        unsafe_allow_html=True,
+    )
     rows_top5 = "".join(
         f"<tr>"
         f"<td style='font-size:1.5rem; padding:0.55rem 1rem; font-style:italic;'>"
@@ -477,62 +535,6 @@ if identificar:
             f"</tr></thead><tbody>{rows_rank}</tbody></table>",
             unsafe_allow_html=True,
         )
-
-    # ── Alerta espécies crípticas ─────────────────────────────────────────────
-    cripticas_top5 = [
-        (r["Espécie"], grupo_criptico(r["Espécie"]))
-        for _, r in top5.iterrows()
-        if grupo_criptico(r["Espécie"])
-    ]
-    if cripticas_top5:
-        grupos_detectados = sorted({g for _, g in cripticas_top5})
-        nomes_detectados  = ", ".join(f"*{n}*" for n, _ in cripticas_top5)
-        st.markdown(f"""
-        <div style="background:#fff3cd; border-left:5px solid #e67e22;
-                    padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
-                    margin:1rem 0;">
-            <p style="margin:0 0 0.3rem; font-size:1.3rem; font-weight:700; color:#7d4e00;">
-                ! Atenção — "Espécies crípticas" detectadas nas sugestões
-            </p>
-            <p style="margin:0; font-size:1.1rem; color:#5a3800;">
-                {nomes_detectados} pertencem ao(s) grupo(s)
-                <strong>{', '.join(grupos_detectados)}</strong>,
-                considerados grupos de "espécies crípticas".
-                A identificação definitiva <strong>requer análise do edeago</strong>
-                (morfologia interna da terminália masculina),
-                pois os caracteres externos não permitem distingui-las com segurança.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
-            st.markdown("""
-**O que são "espécies crípticas"?**
-São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.
-Nos grupos *melanogaster*, *repleta*, *willistoni* e *saltans*, a distinção
-segura só é possível pela análise do **edeago** (órgão copulador masculino),
-pois os caracteres externos não permitem distingui-las com segurança.
-            """)
-            st.divider()
-
-            # Exibe pranchas de TODAS as espécies crípticas sugeridas no top5
-            cols_pr = st.columns(len(cripticas_top5))
-            for col, (nome_crit, grupo_crit) in zip(cols_pr, cripticas_top5):
-                with col:
-                    st.markdown(
-                        f"<p style='text-align:center; font-style:italic; "
-                        f"font-size:1.1rem; font-weight:600; margin-bottom:0.3rem;'>"
-                        f"{nome_crit}<br>"
-                        f"<span style='color:#e67e22; font-size:0.85em; font-style:normal;'>"
-                        f"grupo {grupo_crit}</span></p>",
-                        unsafe_allow_html=True,
-                    )
-                    img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
-                    if img_pr and img_pr.exists():
-                        st.image(str(img_pr), caption=nome_crit,
-                                 use_container_width=True)
-                    else:
-                        st.info("Prancha não disponível.")
 
     # Gráfico
     st.markdown(

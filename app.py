@@ -65,9 +65,9 @@ GRUPOS_CRIPTICOS: dict[str, set[str]] = {
         "d. bocainensis", "d. capricorni", "d. nebulosa", "d. paulistorum",
     },
     "saltans": {
-        "d. emarginata", "d. neoelliptica", "d. neosaltans", "d.austrosaltans",
-        "d. prosaltans", "d. pseudosaltans", "d.dacunhai", "d.lehrmanae",
-        "d.magalhaesis", "d.milleri", "d. sturtevanti",
+        "d. emarginata", "d. neoelliptica", "d. neosaltans", "d. austrosaltans",
+        "d. prosaltans", "d. pseudosaltans", "d. dacunhai", "d. lehrmanae",
+        "d. magalhaesis", "d. milleri", "d. sturtevanti",
     },
 }
 TODAS_CRIPTICAS: set[str] = {sp for g in GRUPOS_CRIPTICOS.values() for sp in g}
@@ -95,7 +95,7 @@ FOTOS_ESPECIES = {
     "d. immigrans":     ESP / "D_immigrans (1).jpg",
     "d. annulimana":    ESP / "d_annulimana.jpg",
     "d. ararama":       ESP / "d_ararama.jpg",
-    "d.austrosaltans":  ESP / "d_austrosaltans.jpg",
+    "d. austrosaltans": ESP / "d_austrosaltans.jpg",
     "d. guaru":         ESP / "d_guaru.jpg",
     "d. hydei":         ESP / "d_hidey.jpg",
     "d. malerkotliana": ESP / "d_malerkotliana (1).jpg",

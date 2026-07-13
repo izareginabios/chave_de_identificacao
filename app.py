@@ -505,7 +505,7 @@ if identificar:
         </div>
         """, unsafe_allow_html=True)
 
-        with st.expander("! Pranchas fotográficas das \"espécies crípticas\" sugeridas"):
+        with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
             st.markdown("""
 **O que são "espécies crípticas"?**
 São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.

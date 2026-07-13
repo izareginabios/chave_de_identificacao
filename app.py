@@ -79,6 +79,12 @@ def grupo_criptico(nome: str) -> str | None:
             return grupo
     return None
 
+def nome_com_grupo(nome: str) -> str:
+    g = grupo_criptico(nome)
+    if g:
+        return f"{nome} (Grupo {g})"
+    return nome
+
 # ── Pasta de edeagos (imagens inseridas pelo administrador) ───────────────────
 EDEAGOS = PRANCHA / "edeagos"
 
@@ -393,7 +399,7 @@ if identificar:
             ESPÉCIE MAIS PROVÁVEL
         </p>
         <p style="margin:0; font-size:4.65rem; font-weight:700; font-style:italic;">
-            {nome_especie}
+            {nome_com_grupo(nome_especie)}
         </p>
         <p style="margin:0.3rem 0 0; font-size:0.95rem; opacity:0.9;">
             Similaridade morfológica: <strong>{sim_pct}%</strong>
@@ -406,7 +412,7 @@ if identificar:
     if foto_esp and foto_esp.exists():
         st.markdown(
             f"<h4 style='color:inherit; margin-bottom:0.5rem;'>"
-            f"Prancha fotográfica — <em>{nome_especie}</em></h4>",
+            f"Prancha fotográfica — <em>{nome_com_grupo(nome_especie)}</em></h4>",
             unsafe_allow_html=True,
         )
         col_foto, col_info = st.columns([0.55, 0.45])
@@ -448,7 +454,7 @@ if identificar:
     rows_top5 = "".join(
         f"<tr>"
         f"<td style='font-size:1.5rem; padding:0.55rem 1rem; font-style:italic;'>"
-        f"{r['Espécie']}{badge_criptica(r['Espécie'])}</td>"
+        f"{nome_com_grupo(r['Espécie'])}</td>"
         f"<td style='font-size:1.5rem; padding:0.55rem 1rem; text-align:right;'>{r['Similaridade (%)']:.1f}%</td>"
         f"</tr>"
         for _, r in top5.iterrows()
@@ -469,7 +475,7 @@ if identificar:
         rows_rank = "".join(
             f"<tr>"
             f"<td style='font-size:1.4rem; padding:0.45rem 1rem; font-style:italic;'>"
-            f"{r['Espécie']}{badge_criptica(r['Espécie'])}</td>"
+            f"{nome_com_grupo(r['Espécie'])}</td>"
             f"<td style='font-size:1.4rem; padding:0.45rem 1rem; text-align:right;'>{r['Similaridade (%)']:.1f}%</td>"
             f"</tr>"
             for _, r in ranking.iterrows()

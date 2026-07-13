@@ -89,26 +89,8 @@ def nome_com_grupo(nome: str) -> str:
 EDEAGOS = PRANCHA / "edeagos"
 
 # ── Mapeamento espécie → prancha fotográfica ───────────────────────────────────
-FOTOS_ESPECIES = {
-    "d. ananassae":     ESP / "d_ananassae.jpg",
-    "d. maculifrons":   ESP / "D_maculifrons.jpg",
-    "d. immigrans":     ESP / "D_immigrans (1).jpg",
-    "d. annulimana":    ESP / "d_annulimana.jpg",
-    "d. ararama":       ESP / "d_ararama.jpg",
-    "d. austrosaltans": ESP / "d_austrosaltans.jpg",
-    "d. guaru":         ESP / "d_guaru.jpg",
-    "d. hydei":         ESP / "d_hidey.jpg",
-    "d. malerkotliana": ESP / "d_malerkotliana (1).jpg",
-    "d. mediopicta":    ESP / "d_mediopicta.jpg",
-    "d. melanogaster":  ESP / "d_melanogaster.jpg",
-    "d. mercatorum":        ESP / "d_mercatorum (1).jpg",
-    "d. sturtevanti":       ESP / "d_sturtevanti.jpg",
-    "d. simulans":          ESP / "d_simulans.jpg",
-    "d. nasuta":            ESP / "D_nasuta (1).jpg",
-    "s. latifasciaeformis": ESP / "scaptodrosophila.jpg",
-    "z.tuberculatus":       ESP / "Z_tuberculatus.jpg",
-    "d. kikkawai":          ESP / "d_kikkawai (1).jpg",
-}
+# Pranchas temporariamente removidas — sendo refeitas
+FOTOS_ESPECIES: dict = {}
 
 # ── Configuração da página ─────────────────────────────────────────────────────
 st.set_page_config(
@@ -120,6 +102,12 @@ st.set_page_config(
 # ── CSS ────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
+/* Expander "Pranchas crípticas" — fonte 2x maior */
+[data-testid="stExpander"] summary p {
+    font-size: 2.0rem !important;
+    font-weight: 700 !important;
+}
+
 /* Borda adaptável nos campos de entrada */
 [data-baseweb="select"] > div:first-child {
     border: 1.5px solid rgba(128,128,128,0.55) !important;

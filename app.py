@@ -82,7 +82,7 @@ def grupo_criptico(nome: str) -> str | None:
 def nome_com_grupo(nome: str) -> str:
     g = grupo_criptico(nome)
     if g:
-        return f"{nome} (Grupo {g})"
+        return f"{nome} (grupo {g})"
     return nome
 
 # ── Pasta de edeagos (imagens inseridas pelo administrador) ───────────────────

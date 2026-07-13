@@ -106,7 +106,7 @@ FOTOS_ESPECIES = {
     "d. simulans":          ESP / "d_simulans.jpg",
     "d. nasuta":            ESP / "D_nasuta (1).jpg",
     "s. latifasciaeformis": ESP / "scaptodrosophila.jpg",
-    "z. tuberculatus":      ESP / "Z_tuberculatus.jpg",
+    "z.tuberculatus":       ESP / "Z_tuberculatus.jpg",
     "d. kikkawai":          ESP / "d_kikkawai (1).jpg",
 }
 

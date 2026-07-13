@@ -384,7 +384,7 @@ if identificar:
         color: white; padding: 1.3rem 1.8rem; border-radius: 0.75rem;
         margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(27,111,60,0.25);
     ">
-        <p style="margin:0 0 0.2rem; font-size:0.41rem; opacity:0.8; font-weight:500; letter-spacing:.05em;">
+        <p style="margin:0 0 0.2rem; font-size:0.82rem; opacity:0.8; font-weight:500; letter-spacing:.05em;">
             ESPÉCIE MAIS PROVÁVEL
         </p>
         <p style="margin:0; font-size:4.65rem; font-weight:700; font-style:italic;">

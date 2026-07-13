@@ -44,10 +44,10 @@ PLACEHOLDERS_REFERENCIA = {
     "mesonoto cor",
     "mesonoto brilho/fosco",
     "faixas tergitos fêmeas (espessura e coloração)",
-    "colaração escura últimos tergitos (macho)",
+    "coloração escura últimos tergitos (macho)",
     "faixas tergitos interrompidas",
     "mancha nos últimos  tergitos macho",
-    "mancha nos últimos  tergitos femea",
+    "mancha nos últimos  tergitos fêmeas",
     "veias transversais enfumaçadas",
 }
 
@@ -308,7 +308,7 @@ for i, c in enumerate(caracteristicas):
     with cols[i % 3]:
         tem_foto        = c.lower() in FOTOS_REFERENCIA
         tem_placeholder = c.lower() in PLACEHOLDERS_REFERENCIA
-        label_display   = c.capitalize() if c.lower() == "colaração escura últimos tergitos (macho)" else c
+        label_display   = c.capitalize() if c.lower() == "coloração escura últimos tergitos (macho)" else c
 
         # ── Bloco label + ⓘ na mesma linha ──
         if tem_foto or tem_placeholder:

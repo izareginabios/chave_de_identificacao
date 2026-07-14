@@ -474,29 +474,61 @@ if identificar:
             st.markdown("""
 **O que são "espécies crípticas"?**
 São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.
-Nos grupos *melanogaster*, *repleta*, *willistoni* e *saltans*, a distinção
+Nos grupos *melanogaster*, *repleta*, *willistoni*, *saltans*, *inermis* e *vittiger*, a distinção
 segura só é possível pela análise do **edeago** (órgão copulador masculino),
 pois os caracteres externos não permitem distingui-las com segurança.
             """)
             st.divider()
 
-            cols_pr = st.columns(len(cripticas_top5))
-            for col, (nome_crit, grupo_crit) in zip(cols_pr, cripticas_top5):
-                with col:
-                    st.markdown(
-                        f"<p style='text-align:center; font-style:italic; "
-                        f"font-size:1.1rem; font-weight:600; margin-bottom:0.3rem;'>"
-                        f"{nome_crit}<br>"
-                        f"<span style='color:#e67e22; font-size:0.85em; font-style:normal;'>"
-                        f"grupo {grupo_crit}</span></p>",
-                        unsafe_allow_html=True,
-                    )
-                    img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
-                    if img_pr and img_pr.exists():
-                        st.image(str(img_pr), caption=nome_crit,
-                                 use_container_width=True)
-                    else:
-                        st.info("Prancha não disponível.")
+            # Para cada grupo detectado no top5, exibe todas as espécies do grupo
+            grupos_no_top5 = sorted({g for _, g in cripticas_top5})
+            for grupo_exibir in grupos_no_top5:
+                st.markdown(
+                    f"<h4 style='color:#e67e22; margin:0.8rem 0 0.4rem;'>"
+                    f"<span style='font-size:1.2rem; font-weight:900;'>!</span> "
+                    f"Grupo <em>{grupo_exibir}</em> — comparação entre as espécies</h4>",
+                    unsafe_allow_html=True,
+                )
+                especies_grupo = sorted(GRUPOS_CRIPTICOS[grupo_exibir])
+                # normaliza para o nome original do CSV
+                nomes_originais = []
+                for sp in especies_grupo:
+                    match = df[df["Espécies"].str.lower().str.strip() == sp]["Espécies"]
+                    if not match.empty:
+                        nomes_originais.append(match.iloc[0])
+
+                n_cols = min(len(nomes_originais), 4)
+                cols_gr = st.columns(n_cols)
+                for i, nome_sp in enumerate(nomes_originais):
+                    with cols_gr[i % n_cols]:
+                        # badge "!" para a espécie que apareceu no top5
+                        esta_no_top5 = nome_sp in [n for n, _ in cripticas_top5]
+                        destaque = (
+                            "background:#fff3cd; border:2px solid #e67e22; border-radius:0.5rem; padding:0.4rem;"
+                            if esta_no_top5 else
+                            "background:#f8f9fa; border:1px solid #dee2e6; border-radius:0.5rem; padding:0.4rem;"
+                        )
+                        badge = "<span style='color:#e67e22; font-weight:900;'>!</span> " if esta_no_top5 else ""
+                        st.markdown(
+                            f"<p style='text-align:center; font-style:italic; font-size:1rem; "
+                            f"font-weight:600; margin-bottom:0.3rem; {destaque}'>"
+                            f"{badge}{nome_sp}<br>"
+                            f"<span style='color:#888; font-size:0.8em; font-style:normal;'>"
+                            f"grupo {grupo_exibir}</span></p>",
+                            unsafe_allow_html=True,
+                        )
+                        img_pr = FOTOS_ESPECIES.get(nome_sp.lower().strip())
+                        if img_pr and img_pr.exists():
+                            st.image(str(img_pr), caption=nome_sp, use_container_width=True)
+                        else:
+                            st.markdown(
+                                "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
+                                "display:flex; align-items:center; justify-content:center; "
+                                "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
+                                "📷 Imagem não disponível</div>",
+                                unsafe_allow_html=True,
+                            )
+                st.divider()
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────
     st.markdown(

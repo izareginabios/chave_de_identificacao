@@ -69,6 +69,12 @@ GRUPOS_CRIPTICOS: dict[str, set[str]] = {
         "d. prosaltans", "d. pseudosaltans", "d. dacunhai", "d. lehrmanae",
         "d. magalhaesis", "d. milleri", "d. sturtevanti",
     },
+    "inermis": {
+        "z. tuberculatus", "z.tuberculatus",
+    },
+    "vittiger": {
+        "z. indianus",
+    },
 }
 TODAS_CRIPTICAS: set[str] = {sp for g in GRUPOS_CRIPTICOS.values() for sp in g}
 

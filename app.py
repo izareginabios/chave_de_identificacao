@@ -69,14 +69,15 @@ GRUPOS_CRIPTICOS: dict[str, set[str]] = {
         "d. prosaltans", "d. pseudosaltans", "d. dacunhai", "d. lehrmanae",
         "d. magalhaesis", "d. milleri", "d. sturtevanti",
     },
-    "inermis": {
-        "z. tuberculatus", "z.tuberculatus",
-    },
-    "vittiger": {
-        "z. indianus",
-    },
 }
 TODAS_CRIPTICAS: set[str] = {sp for g in GRUPOS_CRIPTICOS.values() for sp in g}
+
+# Grupos apenas para exibição de label (não entram no alerta de crípticas)
+GRUPOS_LABEL: dict[str, str] = {
+    "z. tuberculatus": "inermis",
+    "z.tuberculatus":  "inermis",
+    "z. indianus":     "vittiger",
+}
 
 def grupo_criptico(nome: str) -> str | None:
     chave = nome.lower().strip()
@@ -86,7 +87,7 @@ def grupo_criptico(nome: str) -> str | None:
     return None
 
 def nome_com_grupo(nome: str) -> str:
-    g = grupo_criptico(nome)
+    g = grupo_criptico(nome) or GRUPOS_LABEL.get(nome.lower().strip())
     if g:
         return f"{nome} (grupo {g})"
     return nome

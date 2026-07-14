@@ -498,6 +498,11 @@ pois os caracteres externos não permitem distingui-las com segurança.
                     if not match.empty:
                         nomes_originais.append(match.iloc[0])
 
+                ver_imgs = st.checkbox(
+                    "Clique aqui para ver as imagens",
+                    key=f"imgs_{grupo_exibir}",
+                )
+
                 n_cols = min(len(nomes_originais), 4)
                 cols_gr = st.columns(n_cols)
                 for i, nome_sp in enumerate(nomes_originais):
@@ -517,23 +522,28 @@ pois os caracteres externos não permitem distingui-las com segurança.
                             f"grupo {grupo_exibir}</span></p>",
                             unsafe_allow_html=True,
                         )
-                        img_pr = FOTOS_ESPECIES.get(nome_sp.lower().strip())
-                        if img_pr and img_pr.exists():
-                            st.image(str(img_pr), caption=nome_sp, use_container_width=True)
-                        else:
-                            st.markdown(
-                                "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
-                                "display:flex; align-items:center; justify-content:center; "
-                                "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
-                                "📷 Imagem não disponível</div>",
-                                unsafe_allow_html=True,
-                            )
+                        if ver_imgs:
+                            img_pr = FOTOS_ESPECIES.get(nome_sp.lower().strip())
+                            if img_pr and img_pr.exists():
+                                st.image(str(img_pr), caption=nome_sp, use_container_width=True)
+                            else:
+                                st.markdown(
+                                    "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
+                                    "display:flex; align-items:center; justify-content:center; "
+                                    "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
+                                    "📷 Imagem não disponível</div>",
+                                    unsafe_allow_html=True,
+                                )
                 st.divider()
 
             # ── 2. Espécies crípticas que apareceram na tabela de similaridade ─
             st.markdown(
                 "<h4 style='margin:0.4rem 0;'>Espécies crípticas detectadas na tabela de similaridade</h4>",
                 unsafe_allow_html=True,
+            )
+            ver_imgs_top5 = st.checkbox(
+                "Clique aqui para ver as imagens",
+                key="imgs_top5_cripticas",
             )
             cols_pr = st.columns(len(cripticas_top5))
             for col, (nome_crit, grupo_crit) in zip(cols_pr, cripticas_top5):
@@ -547,17 +557,18 @@ pois os caracteres externos não permitem distingui-las com segurança.
                         f"grupo {grupo_crit}</span></p>",
                         unsafe_allow_html=True,
                     )
-                    img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
-                    if img_pr and img_pr.exists():
-                        st.image(str(img_pr), caption=nome_crit, use_container_width=True)
-                    else:
-                        st.markdown(
-                            "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
-                            "display:flex; align-items:center; justify-content:center; "
-                            "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
-                            "📷 Imagem não disponível</div>",
-                            unsafe_allow_html=True,
-                        )
+                    if ver_imgs_top5:
+                        img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
+                        if img_pr and img_pr.exists():
+                            st.image(str(img_pr), caption=nome_crit, use_container_width=True)
+                        else:
+                            st.markdown(
+                                "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
+                                "display:flex; align-items:center; justify-content:center; "
+                                "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
+                                "📷 Imagem não disponível</div>",
+                                unsafe_allow_html=True,
+                            )
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────
     st.markdown(

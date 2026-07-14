@@ -492,12 +492,21 @@ pois os caracteres externos não permitem distingui-las com segurança.
                     f"Grupo <em>{grupo_exibir}</em> — comparação entre as espécies do grupo</h4>",
                     unsafe_allow_html=True,
                 )
-                especies_grupo = sorted(GRUPOS_CRIPTICOS[grupo_exibir])
+                # Monta lista com similaridade para ordenar do maior para o menor
+                sim_por_especie = {
+                    r["Espécie"]: r["Similaridade"]
+                    for _, r in resultados.iterrows()
+                }
+                especies_grupo_raw = GRUPOS_CRIPTICOS[grupo_exibir]
                 nomes_originais = []
-                for sp in especies_grupo:
+                for sp in especies_grupo_raw:
                     match = df[df["Espécies"].str.lower().str.strip() == sp]["Espécies"]
                     if not match.empty:
                         nomes_originais.append(match.iloc[0])
+                # Ordena por similaridade decrescente
+                nomes_originais.sort(
+                    key=lambda n: sim_por_especie.get(n, 0.0), reverse=True
+                )
 
                 ver_imgs = st.checkbox(
                     "Clique aqui para ver as imagens",
@@ -509,6 +518,7 @@ pois os caracteres externos não permitem distingui-las com segurança.
                 for i, nome_sp in enumerate(nomes_originais):
                     with cols_gr[i % n_cols]:
                         esta_no_top5 = nome_sp in nomes_no_top5
+                        sim_sp = round(sim_por_especie.get(nome_sp, 0.0) * 100, 1)
                         destaque = (
                             "background:#fff3cd; border:2px solid #e67e22; border-radius:0.5rem; padding:0.4rem;"
                             if esta_no_top5 else
@@ -520,7 +530,9 @@ pois os caracteres externos não permitem distingui-las com segurança.
                             f"font-weight:600; margin-bottom:0.3rem; {destaque}'>"
                             f"{badge}{nome_sp}<br>"
                             f"<span style='color:#888; font-size:0.8em; font-style:normal;'>"
-                            f"grupo {grupo_exibir}</span></p>",
+                            f"grupo {grupo_exibir}</span><br>"
+                            f"<span style='color:#555; font-size:0.8em; font-style:normal;'>"
+                            f"{sim_sp}% similaridade</span></p>",
                             unsafe_allow_html=True,
                         )
                         if ver_imgs:

@@ -79,6 +79,12 @@ GRUPOS_LABEL: dict[str, str] = {
     "z. indianus":     "vittiger",
 }
 
+# Espécies Zaprionus — comparação própria quando aparecem no top 3
+ZAPRIONUS_CHAVES: set[str] = {"z. tuberculatus", "z.tuberculatus", "z. indianus"}
+
+def eh_zaprionus(nome: str) -> bool:
+    return nome.lower().strip() in ZAPRIONUS_CHAVES
+
 def grupo_criptico(nome: str) -> str | None:
     chave = nome.lower().strip()
     for grupo, especies in GRUPOS_CRIPTICOS.items():
@@ -446,33 +452,53 @@ if identificar:
         return ""
 
     # Alerta e comparação apenas para crípticas no top 3
+    zaprionus_top3 = [r["Espécie"] for _, r in top3.iterrows() if eh_zaprionus(r["Espécie"])]
+
     cripticas_top5 = [
         (r["Espécie"], grupo_criptico(r["Espécie"]), r["Similaridade (%)"])
         for _, r in top3.iterrows()
-        if grupo_criptico(r["Espécie"])
+        if grupo_criptico(r["Espécie"]) and not zaprionus_top3
     ]
 
     # ── Alerta espécies crípticas (acima da tabela) ───────────────────────────
-    if cripticas_top5:
-        grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
-        nomes_detectados  = ", ".join(f"*{n}*" for n, _, _ in cripticas_top5)
-        st.markdown(f"""
-        <div style="background:#fff3cd; border-left:5px solid #e67e22;
-                    padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
-                    margin:1rem 0;">
-            <p style="margin:0 0 0.3rem; font-size:1.3rem; font-weight:700; color:#7d4e00;">
-                ! Atenção — "Espécies crípticas" detectadas nas sugestões
-            </p>
-            <p style="margin:0; font-size:1.1rem; color:#5a3800;">
-                {nomes_detectados} pertencem ao(s) grupo(s)
-                <strong>{', '.join(grupos_detectados)}</strong>,
-                considerados grupos de "espécies crípticas".
-                A identificação definitiva <strong>requer análise do edeago</strong>
-                (morfologia interna da terminália masculina),
-                pois os caracteres externos não permitem distingui-las com segurança.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+    if cripticas_top5 or zaprionus_top3:
+        if zaprionus_top3:
+            nomes_zap = ", ".join(f"*{n}*" for n in zaprionus_top3)
+            st.markdown(f"""
+            <div style="background:#fff3cd; border-left:5px solid #e67e22;
+                        padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
+                        margin:1rem 0;">
+                <p style="margin:0 0 0.3rem; font-size:1.3rem; font-weight:700; color:#7d4e00;">
+                    ! Atenção — espécies de <em>Zaprionus</em> detectadas nas sugestões
+                </p>
+                <p style="margin:0; font-size:1.1rem; color:#5a3800;">
+                    {nomes_zap} pertencem ao gênero <em>Zaprionus</em>.
+                    A distinção entre <em>Z. tuberculatus</em> e <em>Z. indianus</em>
+                    requer atenção ao <strong>índice costal</strong> e ao
+                    <strong>padrão de faixas do mesonoto</strong>.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
+            nomes_detectados  = ", ".join(f"*{n}*" for n, _, _ in cripticas_top5)
+            st.markdown(f"""
+            <div style="background:#fff3cd; border-left:5px solid #e67e22;
+                        padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
+                        margin:1rem 0;">
+                <p style="margin:0 0 0.3rem; font-size:1.3rem; font-weight:700; color:#7d4e00;">
+                    ! Atenção — "Espécies crípticas" detectadas nas sugestões
+                </p>
+                <p style="margin:0; font-size:1.1rem; color:#5a3800;">
+                    {nomes_detectados} pertencem ao(s) grupo(s)
+                    <strong>{', '.join(grupos_detectados)}</strong>,
+                    considerados grupos de "espécies crípticas".
+                    A identificação definitiva <strong>requer análise do edeago</strong>
+                    (morfologia interna da terminália masculina),
+                    pois os caracteres externos não permitem distingui-las com segurança.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
 
         with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
             st.markdown("""
@@ -484,11 +510,67 @@ pois os caracteres externos não permitem distingui-las com segurança.
             """)
             st.divider()
 
-            # ── 1. Comparação entre TODAS as espécies do grupo ───────────────
-            grupos_no_top5 = sorted({g for _, g, _ in cripticas_top5})
-            nomes_no_top5  = [n for n, _, _ in cripticas_top5]
+            # ── 1. Comparação: Zaprionus OU grupos crípticos ─────────────────
+            if zaprionus_top3:
+                # Busca os dois Zaprionus no dataframe ordenados por similaridade
+                sim_por_especie = {r["Espécie"]: r["Similaridade"] for _, r in resultados.iterrows()}
+                zap_chaves = ["z. tuberculatus", "z.tuberculatus", "z. indianus"]
+                nomes_zap_comp = []
+                for chave in zap_chaves:
+                    match = df[df["Espécies"].str.lower().str.strip() == chave]["Espécies"]
+                    if not match.empty:
+                        nome_orig = match.iloc[0]
+                        if nome_orig not in nomes_zap_comp:
+                            nomes_zap_comp.append(nome_orig)
+                nomes_zap_comp.sort(key=lambda n: sim_por_especie.get(n, 0.0), reverse=True)
 
-            for grupo_exibir in grupos_no_top5:
+                st.markdown(
+                    "<h4 style='color:#e67e22; margin:0.8rem 0 0.4rem;'>"
+                    "<span style='font-size:1.2rem; font-weight:900;'>!</span> "
+                    "<em>Zaprionus</em> — comparação entre as espécies</h4>",
+                    unsafe_allow_html=True,
+                )
+                ver_imgs_zap = st.checkbox("Clique aqui para ver as imagens", key="imgs_zaprionus")
+                cols_zap = st.columns(len(nomes_zap_comp))
+                for col, nome_sp in zip(cols_zap, nomes_zap_comp):
+                    with col:
+                        esta_no_top = nome_sp in zaprionus_top3
+                        sim_sp = round(sim_por_especie.get(nome_sp, 0.0) * 100, 1)
+                        destaque = (
+                            "background:#fff3cd; border:2px solid #e67e22; border-radius:0.5rem; padding:0.4rem;"
+                            if esta_no_top else
+                            "background:#f8f9fa; border:1px solid #dee2e6; border-radius:0.5rem; padding:0.4rem;"
+                        )
+                        badge = "<span style='color:#e67e22; font-weight:900;'>!</span> " if esta_no_top else ""
+                        grupo_label = GRUPOS_LABEL.get(nome_sp.lower().strip(), "")
+                        st.markdown(
+                            f"<p style='text-align:center; font-style:italic; font-size:1rem; "
+                            f"font-weight:600; margin-bottom:0.3rem; {destaque}'>"
+                            f"{badge}{nome_sp}<br>"
+                            f"<span style='color:#888; font-size:0.8em; font-style:normal;'>"
+                            f"grupo {grupo_label}</span><br>"
+                            f"<span style='color:#555; font-size:0.8em; font-style:normal;'>"
+                            f"{sim_sp}% similaridade</span></p>",
+                            unsafe_allow_html=True,
+                        )
+                        if ver_imgs_zap:
+                            img_pr = FOTOS_ESPECIES.get(nome_sp.lower().strip())
+                            if img_pr and img_pr.exists():
+                                st.image(str(img_pr), caption=nome_sp, use_container_width=True)
+                            else:
+                                st.markdown(
+                                    "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
+                                    "display:flex; align-items:center; justify-content:center; "
+                                    "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
+                                    "📷 Imagem não disponível</div>",
+                                    unsafe_allow_html=True,
+                                )
+                st.divider()
+            else:
+                grupos_no_top5 = sorted({g for _, g, _ in cripticas_top5})
+                nomes_no_top5  = [n for n, _, _ in cripticas_top5]
+
+            for grupo_exibir in ([] if zaprionus_top3 else grupos_no_top5):
                 st.markdown(
                     f"<h4 style='color:#e67e22; margin:0.8rem 0 0.4rem;'>"
                     f"<span style='font-size:1.2rem; font-weight:900;'>!</span> "

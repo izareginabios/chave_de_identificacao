@@ -432,6 +432,8 @@ if identificar:
     # ── Calcula top5 e espécies crípticas ────────────────────────────────────
     top5 = resultados.head(5).copy()
     top5["Similaridade (%)"] = (top5["Similaridade"] * 100).round(1)
+    top3 = resultados.head(3).copy()
+    top3["Similaridade (%)"] = (top3["Similaridade"] * 100).round(1)
 
     def badge_criptica(nome: str) -> str:
         g = grupo_criptico(nome)
@@ -443,9 +445,10 @@ if identificar:
             )
         return ""
 
+    # Alerta e comparação apenas para crípticas no top 3
     cripticas_top5 = [
         (r["Espécie"], grupo_criptico(r["Espécie"]), r["Similaridade (%)"])
-        for _, r in top5.iterrows()
+        for _, r in top3.iterrows()
         if grupo_criptico(r["Espécie"])
     ]
 

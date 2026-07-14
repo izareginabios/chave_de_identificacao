@@ -480,17 +480,18 @@ pois os caracteres externos não permitem distingui-las com segurança.
             """)
             st.divider()
 
-            # Para cada grupo detectado no top5, exibe todas as espécies do grupo
+            # ── 1. Comparação entre TODAS as espécies do grupo ───────────────
             grupos_no_top5 = sorted({g for _, g in cripticas_top5})
+            nomes_no_top5  = [n for n, _ in cripticas_top5]
+
             for grupo_exibir in grupos_no_top5:
                 st.markdown(
                     f"<h4 style='color:#e67e22; margin:0.8rem 0 0.4rem;'>"
                     f"<span style='font-size:1.2rem; font-weight:900;'>!</span> "
-                    f"Grupo <em>{grupo_exibir}</em> — comparação entre as espécies</h4>",
+                    f"Grupo <em>{grupo_exibir}</em> — comparação entre as espécies do grupo</h4>",
                     unsafe_allow_html=True,
                 )
                 especies_grupo = sorted(GRUPOS_CRIPTICOS[grupo_exibir])
-                # normaliza para o nome original do CSV
                 nomes_originais = []
                 for sp in especies_grupo:
                     match = df[df["Espécies"].str.lower().str.strip() == sp]["Espécies"]
@@ -501,8 +502,7 @@ pois os caracteres externos não permitem distingui-las com segurança.
                 cols_gr = st.columns(n_cols)
                 for i, nome_sp in enumerate(nomes_originais):
                     with cols_gr[i % n_cols]:
-                        # badge "!" para a espécie que apareceu no top5
-                        esta_no_top5 = nome_sp in [n for n, _ in cripticas_top5]
+                        esta_no_top5 = nome_sp in nomes_no_top5
                         destaque = (
                             "background:#fff3cd; border:2px solid #e67e22; border-radius:0.5rem; padding:0.4rem;"
                             if esta_no_top5 else
@@ -529,6 +529,35 @@ pois os caracteres externos não permitem distingui-las com segurança.
                                 unsafe_allow_html=True,
                             )
                 st.divider()
+
+            # ── 2. Espécies crípticas que apareceram na tabela de similaridade ─
+            st.markdown(
+                "<h4 style='margin:0.4rem 0;'>Espécies crípticas detectadas na tabela de similaridade</h4>",
+                unsafe_allow_html=True,
+            )
+            cols_pr = st.columns(len(cripticas_top5))
+            for col, (nome_crit, grupo_crit) in zip(cols_pr, cripticas_top5):
+                with col:
+                    st.markdown(
+                        f"<p style='text-align:center; font-style:italic; font-size:1.1rem; "
+                        f"font-weight:600; margin-bottom:0.3rem; "
+                        f"background:#fff3cd; border:2px solid #e67e22; border-radius:0.5rem; padding:0.4rem;'>"
+                        f"<span style='color:#e67e22; font-weight:900;'>!</span> {nome_crit}<br>"
+                        f"<span style='color:#7d4e00; font-size:0.85em; font-style:normal;'>"
+                        f"grupo {grupo_crit}</span></p>",
+                        unsafe_allow_html=True,
+                    )
+                    img_pr = FOTOS_ESPECIES.get(nome_crit.lower().strip())
+                    if img_pr and img_pr.exists():
+                        st.image(str(img_pr), caption=nome_crit, use_container_width=True)
+                    else:
+                        st.markdown(
+                            "<div style='height:140px; background:#e9ecef; border-radius:0.4rem; "
+                            "display:flex; align-items:center; justify-content:center; "
+                            "color:#6c757d; font-size:0.85rem; margin-bottom:0.5rem;'>"
+                            "📷 Imagem não disponível</div>",
+                            unsafe_allow_html=True,
+                        )
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────
     st.markdown(

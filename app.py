@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import base64
 from pathlib import Path
 from src.identificador import carregar_dados, calcular_similaridade
 
@@ -7,6 +8,7 @@ from src.identificador import carregar_dados, calcular_similaridade
 RAIZ    = Path(__file__).parent
 VERSAO  = (RAIZ / "VERSION").read_text().strip()
 PRANCHA = RAIZ / "prancha_fotografica"
+LOGO    = RAIZ / "assets" / "logo_drosolab.png"
 OBS     = PRANCHA / "caracteristicas_observadas"
 ESP     = PRANCHA / "imagens_dos_drosofilideos"
 
@@ -281,16 +283,30 @@ coluna_especie  = df.columns[0]
 caracteristicas = df.columns[1:]
 
 # ── Cabeçalho ─────────────────────────────────────────────────────────────────
+_logo_b64 = ""
+if LOGO.exists():
+    _logo_b64 = base64.b64encode(LOGO.read_bytes()).decode()
+
+_logo_html = (
+    f"<img src='data:image/png;base64,{_logo_b64}' "
+    f"style='height:110px; width:110px; object-fit:contain; flex-shrink:0;'/>"
+    if _logo_b64 else ""
+)
+
 st.markdown(f"""
 <div style="
     background: linear-gradient(135deg, #1a3d6e 0%, #2d6aad 100%);
     padding: 2rem 2.5rem; border-radius: 0.85rem; color: white;
     margin-bottom: 1.5rem; box-shadow: 0 3px 12px rgba(26,61,110,0.3);
+    display: flex; align-items: center; gap: 1.8rem;
 ">
-    <h1 style="margin:0 0 0.35rem; font-size:3.0rem; font-weight:700;">
-        Chave de identificação ilustrada de drosofilídeos com ocorrência na região Neotropical
-    </h1>
-    <p style="margin:0.6rem 0 0; font-size:1.56rem; opacity:0.55;">versão {VERSAO}</p>
+    {_logo_html}
+    <div>
+        <h1 style="margin:0 0 0.35rem; font-size:3.0rem; font-weight:700;">
+            Chave de identificação ilustrada de drosofilídeos com ocorrência na região Neotropical
+        </h1>
+        <p style="margin:0.6rem 0 0; font-size:1.56rem; opacity:0.55;">versão {VERSAO}</p>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 

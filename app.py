@@ -81,6 +81,12 @@ GRUPOS_LABEL: dict[str, str] = {
     "z. indianus":     "vittiger",
 }
 
+# Subgrupos para exibição de label
+SUBGRUPOS_LABEL: dict[str, str] = {
+    "z. tuberculatus": "tuberculatus",
+    "z.tuberculatus":  "tuberculatus",
+}
+
 # Espécies Zaprionus — comparação própria quando aparecem no top 3
 ZAPRIONUS_CHAVES: set[str] = {"z. tuberculatus", "z.tuberculatus", "z. indianus"}
 
@@ -95,9 +101,15 @@ def grupo_criptico(nome: str) -> str | None:
     return None
 
 def nome_com_grupo(nome: str) -> str:
-    g = grupo_criptico(nome) or GRUPOS_LABEL.get(nome.lower().strip())
+    chave = nome.lower().strip()
+    g = grupo_criptico(nome) or GRUPOS_LABEL.get(chave)
+    sg = SUBGRUPOS_LABEL.get(chave)
+    if g and sg:
+        return (f"{nome} <span style='font-style:italic; font-size:0.6em; "
+                f"font-weight:400; opacity:0.85;'>(grupo {g}, subgrupo {sg})</span>")
     if g:
-        return f"{nome} (grupo {g})"
+        return (f"{nome} <span style='font-style:italic; font-size:0.6em; "
+                f"font-weight:400; opacity:0.85;'>(grupo {g})</span>")
     return nome
 
 # ── Pasta de edeagos (imagens inseridas pelo administrador) ───────────────────

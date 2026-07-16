@@ -83,8 +83,9 @@ GRUPOS_LABEL: dict[str, str] = {
 
 # Subgrupos para exibição de label
 SUBGRUPOS_LABEL: dict[str, str] = {
-    "z. tuberculatus": "tuberculatus",
-    "z.tuberculatus":  "tuberculatus",
+    "z. tuberculatus":  "tuberculatus",
+    "z.tuberculatus":   "tuberculatus",
+    "d. magalhaesis":   "sturtevanti",
 }
 
 # Espécies Zaprionus — comparação própria quando aparecem no top 3

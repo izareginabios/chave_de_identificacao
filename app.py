@@ -86,6 +86,7 @@ SUBGRUPOS_LABEL: dict[str, str] = {
     "z. tuberculatus":  "tuberculatus",
     "z.tuberculatus":   "tuberculatus",
     "d. magalhaesis":   "sturtevanti",
+    "d. melanogaster":  "melanogaster",
 }
 
 # Espécies Zaprionus — comparação própria quando aparecem no top 3

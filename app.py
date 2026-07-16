@@ -76,26 +76,95 @@ TODAS_CRIPTICAS: set[str] = {sp for g in GRUPOS_CRIPTICOS.values() for sp in g}
 
 # Grupos apenas para exibição de label (não entram no alerta de crípticas)
 GRUPOS_LABEL: dict[str, str] = {
-    "z. tuberculatus": "inermis",
-    "z.tuberculatus":  "inermis",
-    "z. indianus":     "vittiger",
+    # Zaprionus
+    "z. tuberculatus":    "inermis",
+    "z.tuberculatus":     "inermis",
+    "z. indianus":        "vittiger",
+    # annulimana
+    "d. annulimana":      "annulimana",
+    "d. ararama":         "annulimana",
+    "d. arapuan":         "annulimana",
+    "d. atalaia":         "annulimana",
+    # cardini
+    "d. cardini":         "cardini",
+    "d. neocardini":      "cardini",
+    "d. polymorpha":      "cardini",
+    # guarani
+    "d. butantan":        "guarani",
+    "d. griseolineata":   "guarani",
+    "d. guaraja":         "guarani",
+    "d. maculifrons":     "guarani",
+    "d. guaru":           "guarani",
+    "d. ornatifrons":     "guarani",
+    # immigrans
+    "d. immigrans":       "immigrans",
+    "d. nasuta":          "immigrans",
+    # pallidipennis
+    "d. pallidipennis":   "pallidipennis",
+    # tripunctata
+    "d. mediopicta":      "tripunctata",
+    "d. mediostriata":    "tripunctata",
+    "d. nappae":          "tripunctata",
+    "d. paramediostriata":"tripunctata",
+    # virilis
+    "d. virilis":         "virilis",
 }
 
 # Subgrupos para exibição de label
 SUBGRUPOS_LABEL: dict[str, str] = {
-    "z. tuberculatus":  "tuberculatus",
-    "z.tuberculatus":   "tuberculatus",
-    "d. magalhaesis":   "sturtevanti",
-    "d. ananassae":     "ananassae",
-    "d. malerkotliana": "ananassae",
-    "d. melanogaster":  "melanogaster",
-    "d. simulans":      "melanogaster",
-    "d. kikkawai":      "montium",
-    "d. suzukii":       "suzukii",
-    "d. lehrmanae":     "sturtevanti",
-    "d. dacunhai":      "sturtevanti",
-    "d. milleri":       "sturtevanti",
-    "d. sturtevanti":   "sturtevanti",
+    # Zaprionus
+    "z. tuberculatus":    "tuberculatus",
+    "z.tuberculatus":     "tuberculatus",
+    # melanogaster
+    "d. ananassae":       "ananassae",
+    "d. malerkotliana":   "ananassae",
+    "d. melanogaster":    "melanogaster",
+    "d. simulans":        "melanogaster",
+    "d. kikkawai":        "montium",
+    "d. suzukii":         "suzukii",
+    # saltans
+    "d. emarginata":      "elliptica",
+    "d. neoelliptica":    "elliptica",
+    "d. neosaltans":      "elliptica",
+    "d. austrosaltans":   "saltans",
+    "d. prosaltans":      "saltans",
+    "d. pseudosaltans":   "saltans",
+    "d. dacunhai":        "sturtevanti",
+    "d. lehrmanae":       "sturtevanti",
+    "d. magalhaesis":     "sturtevanti",
+    "d. milleri":         "sturtevanti",
+    "d. sturtevanti":     "sturtevanti",
+    # willistoni
+    "d. bocainensis":     "bocainensis",
+    "d. capricorni":      "bocainensis",
+    "d. nebulosa":        "bocainensis",
+    "d. paulistorum":     "willistoni",
+    # annulimana
+    "d. atalaia":         "atalaia",
+    # cardini
+    "d. cardini":         "cardini",
+    "d. neocardini":      "cardini",
+    "d. polymorpha":      "cardini",
+    # guarani
+    "d. griseolineata":   "guaramunu",
+    "d. guaraja":         "guaramunu",
+    "d. maculifrons":     "guaramunu",
+    "d. guaru":           "guarani",
+    "d. ornatifrons":     "guarani",
+    # immigrans
+    "d. immigrans":       "immigrans",
+    "d. nasuta":          "nasuta",
+    # pallidipennis
+    "d. pallidipennis":   "pallidipennis",
+    # repleta
+    "d. senei":           "fasciola",
+    "d. hydei":           "hydei",
+    "d. mercatorum":      "mercatorum",
+    "d. paranaensis":     "mercatorum",
+    "d. antonietae":      "mulleri",
+    "d. buzzatii":        "mulleri",
+    # virilis
+    "d. virilis":         "virilis",
 }
 
 # Espécies Zaprionus — comparação própria quando aparecem no top 3

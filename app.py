@@ -206,7 +206,7 @@ FOTOS_ESPECIES: dict = {
     # Prancha subgrupo sturtevanti
     "d. dacunhai":         ESP / "d_sturtevanti.jpg",
     "d. lehrmanae":        ESP / "d_sturtevanti.jpg",
-    "d. magalhaesis":      ESP / "d_sturtevanti.jpg",
+    "d. magalhaesis":      ESP / "d_magalhaesi.jpg",
     "d. milleri":          ESP / "d_sturtevanti.jpg",
     "d. sturtevanti":      ESP / "d_sturtevanti.jpg",
 }

@@ -196,8 +196,27 @@ def nome_com_grupo(nome: str) -> str:
 EDEAGOS = PRANCHA / "edeagos"
 
 # ── Mapeamento espécie → prancha fotográfica ───────────────────────────────────
-# Pranchas temporariamente removidas — sendo refeitas
-FOTOS_ESPECIES: dict = {}
+FOTOS_ESPECIES: dict = {
+    "d. ananassae":        ESP / "d_ananassae.jpg",
+    "d. annulimana":       ESP / "d_annulimana.jpg",
+    "d. ararama":          ESP / "d_ararama.jpg",
+    "d. austrosaltans":    ESP / "d_austrosaltans.jpg",
+    "d. guaru":            ESP / "d_guaru.jpg",
+    "d. hydei":            ESP / "d_hidey.jpg",
+    "d. immigrans":        ESP / "D_immigrans (1).jpg",
+    "d. kikkawai":         ESP / "d_kikkawai (1).jpg",
+    "d. maculifrons":      ESP / "D_maculifrons.jpg",
+    "d. malerkotliana":    ESP / "d_malerkotliana (1).jpg",
+    "d. mediopicta":       ESP / "d_mediopicta.jpg",
+    "d. melanogaster":     ESP / "d_melanogaster.jpg",
+    "d. mercatorum":       ESP / "d_mercatorum (1).jpg",
+    "d. nasuta":           ESP / "D_nasuta (1).jpg",
+    "d. simulans":         ESP / "d_simulans.jpg",
+    "d. sturtevanti":      ESP / "d_sturtevanti.jpg",
+    "s. latifasciaeformis": ESP / "scaptodrosophila.jpg",
+    "z. indianus":         ESP / "Zaprionus_.jpg",
+    "z.tuberculatus":      ESP / "Z_tuberculatus.jpg",
+}
 
 # ── Configuração da página ─────────────────────────────────────────────────────
 st.set_page_config(

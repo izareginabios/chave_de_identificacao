@@ -643,22 +643,19 @@ pois os caracteres externos não permitem distingui-las com segurança.
 
             # ── 1. Comparação: Zaprionus OU grupos crípticos ─────────────────
             if zaprionus_top3:
-                # Busca os dois Zaprionus no dataframe ordenados por similaridade
                 sim_por_especie = {r["Espécie"]: r["Similaridade"] for _, r in resultados.iterrows()}
-                zap_chaves = ["z. tuberculatus", "z.tuberculatus", "z. indianus"]
-                nomes_zap_comp = []
-                for chave in zap_chaves:
-                    match = df[df["Espécies"].str.lower().str.strip() == chave]["Espécies"]
-                    if not match.empty:
-                        nome_orig = match.iloc[0]
-                        if nome_orig not in nomes_zap_comp:
-                            nomes_zap_comp.append(nome_orig)
-                nomes_zap_comp.sort(key=lambda n: sim_por_especie.get(n, 0.0), reverse=True)
+                # Exibe apenas as espécies de Zaprionus presentes nos resultados (top3)
+                nomes_zap_comp = sorted(zaprionus_top3, key=lambda n: sim_por_especie.get(n, 0.0), reverse=True)
 
+                titulo_zap = (
+                    "<em>Zaprionus</em> — comparação entre as espécies"
+                    if len(nomes_zap_comp) > 1 else
+                    f"<em>{nomes_zap_comp[0]}</em> — espécie identificada"
+                )
                 st.markdown(
-                    "<h4 style='color:#e67e22; margin:0.8rem 0 0.4rem;'>"
-                    "<span style='font-size:1.2rem; font-weight:900;'>!</span> "
-                    "<em>Zaprionus</em> — comparação entre as espécies</h4>",
+                    f"<h4 style='color:#e67e22; margin:0.8rem 0 0.4rem;'>"
+                    f"<span style='font-size:1.2rem; font-weight:900;'>!</span> "
+                    f"{titulo_zap}</h4>",
                     unsafe_allow_html=True,
                 )
                 ver_imgs_zap = st.checkbox("Clique aqui para ver as imagens", key="imgs_zaprionus")

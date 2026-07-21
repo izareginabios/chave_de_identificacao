@@ -208,14 +208,18 @@ FOTOS_ESPECIES: dict = {
     "d. maculifrons":      ESP / "D_maculifrons.jpg",
     "d. malerkotliana":    ESP / "d_malerkotliana (1).jpg",
     "d. mediopicta":       ESP / "d_mediopicta.jpg",
-    "d. melanogaster":     ESP / "d_melanogaster.jpg",
+    "d. melanogaster":     ESP / "Melanogaster_.jpg",
     "d. mercatorum":       ESP / "d_mercatorum (1).jpg",
     "d. nasuta":           ESP / "D_nasuta (1).jpg",
-    "d. simulans":         ESP / "d_simulans.jpg",
+    "d. simulans":         ESP / "Melanogaster_.jpg",
+    "d. dacunhai":         ESP / "d_sturtevanti.jpg",
+    "d. lehrmanae":        ESP / "d_sturtevanti.jpg",
+    "d. magalhaesis":      ESP / "d_sturtevanti.jpg",
+    "d. milleri":          ESP / "d_sturtevanti.jpg",
     "d. sturtevanti":      ESP / "d_sturtevanti.jpg",
     "s. latifasciaeformis": ESP / "scaptodrosophila.jpg",
     "z. indianus":         ESP / "Zaprionus_.jpg",
-    "z.tuberculatus":      ESP / "Z_tuberculatus.jpg",
+    "z.tuberculatus":      ESP / "Zaprionus_.jpg",
 }
 
 # ── Configuração da página ─────────────────────────────────────────────────────

@@ -37,13 +37,17 @@ ABAS_POR_CARACTERISTICA = {
     "i. costal": [
         ("Referência", "Índice costal — referência de medição", OBS / "6i_costal" / "6_indice_costal..jpg"),
     ],
+    "mesonoto cor": [
+        ("Faixas brancas", "Mesonoto com faixas brancas (ex: Z. tuberculatus)", OBS / "7mesonoto_cor" / "mesonoto_tuberculatus.png"),
+        ("Faixas nasuta",  "Mesonoto com faixas (ex: D. nasuta)",               OBS / "7mesonoto_cor" / "mesonoto_nasuta.png"),
+        ("Pintas",         "Mesonoto com pintas individualizadas",               OBS / "7mesonoto_cor" / "mesonoto_pintas_individualizadas.png"),
+    ],
 }
 
 FOTOS_REFERENCIA = set(ABAS_POR_CARACTERISTICA.keys())
 
 # Características sem foto ainda — exibem botão ⓘ com placeholder
 PLACEHOLDERS_REFERENCIA = {
-    "mesonoto cor",
     "mesonoto brilho/fosco",
     "faixas tergitos fêmeas (espessura e coloração)",
     "coloração escura últimos tergitos (macho)",

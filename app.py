@@ -227,9 +227,13 @@ FOTOS_ESPECIES: dict = {
     # Prancha comparativa Zaprionus
     "z. indianus":         ESP / "Zaprionus_.jpg",
     "z.tuberculatus":      ESP / "Zaprionus_.jpg",
-    # Prancha comparativa melanogaster/simulans
+    # Prancha comparativa grupo melanogaster (todas as espécies do grupo)
     "d. melanogaster":     ESP / "Melanogaster_.jpg",
     "d. simulans":         ESP / "Melanogaster_.jpg",
+    "d. ananassae":        ESP / "Melanogaster_.jpg",
+    "d. malerkotliana":    ESP / "Melanogaster_.jpg",
+    "d. kikkawai":         ESP / "Melanogaster_.jpg",
+    "d. suzukii":          ESP / "Melanogaster_.jpg",
     # Prancha subgrupo sturtevanti
     "d. dacunhai":         ESP / "d_sturtevanti.jpg",
     "d. lehrmanae":        ESP / "d_sturtevanti.jpg",

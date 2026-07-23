@@ -38,24 +38,47 @@ ABAS_POR_CARACTERISTICA = {
         ("Referência", "Índice costal — referência de medição", OBS / "6i_costal" / "6_indice_costal..jpg"),
     ],
     "mesonoto cor": [
-        ("Faixas brancas", "Mesonoto com faixas brancas (ex: Z. tuberculatus)", OBS / "7mesonoto_cor" / "mesonoto_tuberculatus.png"),
-        ("Faixas nasuta",  "Mesonoto com faixas (ex: D. nasuta)",               OBS / "7mesonoto_cor" / "mesonoto_nasuta.png"),
-        ("Pintas",         "Mesonoto com pintas individualizadas",               OBS / "7mesonoto_cor" / "mesonoto_pintas_individualizadas.png"),
+        ("Castanho mel",    "Mesonoto castanho mel",                OBS / "7mesonoto_cor" / "Castanho_mel.jpg"),
+        ("Faixas brancas",  "Mesonoto com faixas brancas longitudinais", OBS / "7mesonoto_cor" / "Faixas_brancas_longitudinais.png"),
+        ("Castanho escuro", "Mesonoto castanho escuro",             OBS / "7mesonoto_cor" / "castanho_escuro.jpg"),
+        ("Pintas",          "Mesonoto com pintas individualizadas", OBS / "7mesonoto_cor" / "pintas_individualizadas.jpg"),
+    ],
+    "mesonoto brilho/fosco": [
+        ("Brilhante", "Mesonoto brilhante",  OBS / "8mesonoto_brilho_fosco" / "mesonoto_brilho.jpg"),
+        ("Fosco",     "Mesonoto fosco",      OBS / "8mesonoto_brilho_fosco" / "mesonoto_fosco.jpg"),
+        ("Polinoso",  "Mesonoto polinoso",   OBS / "8mesonoto_brilho_fosco" / "mesonoto_polinoso.jpg"),
+    ],
+    "faixas tergitos fêmeas (espessura e coloração)": [
+        ("Finas e claras",   "Faixas dos tergitos finas e claras",   OBS / "9faixas_tergitos_femeas" / "finas_e_claras.jpg"),
+        ("Finas e escuras",  "Faixas dos tergitos finas e escuras",  OBS / "9faixas_tergitos_femeas" / "finas_e_escuras.jpg"),
+        ("Grossas e escuras","Faixas dos tergitos grossas e escuras", OBS / "9faixas_tergitos_femeas" / "grossas_e_escuras.jpg"),
+    ],
+    "coloração escura últimos tergitos (macho)": [
+        ("Com coloração", "Com coloração escura no último tergito (macho)", OBS / "10coloracao_escura_tergitos_macho" / "com_coloracao_escura_ultimo_tergito.jpg"),
+        ("Sem coloração", "Sem coloração escura no último tergito (macho)", OBS / "10coloracao_escura_tergitos_macho" / "sem_coloracao_escura_ultimo_tergito.jpg"),
+    ],
+    "faixas tergitos interrompidas": [
+        ("Não interrompidas", "Faixas abdominais dos tergitos não interrompidas no meio", OBS / "11faixas_tergitos_interrompidas" / "faixas_abdominais_dos_tergitos_nao_interrompidas_no_meio.jpg"),
+        ("Interrompidas",     "Faixas dos tergitos interrompidas ao meio",               OBS / "11faixas_tergitos_interrompidas" / "faixas_interrompidas_ao_meio.jpg"),
+    ],
+    "mancha nos últimos  tergitos macho": [
+        ("Com mancha", "Mancha no último tergito do macho",    OBS / "12mancha_tergitos_macho" / "mancha_no_ultimo_tergito_do_macho.jpg"),
+        ("Sem mancha", "Sem mancha no último tergito do macho", OBS / "12mancha_tergitos_macho" / "sem_mancha_no_ultimo_tergito_do_macho.jpg"),
+    ],
+    "mancha nos últimos  tergitos fêmeas": [
+        ("Com mancha", "Mancha no último tergito da fêmea",    OBS / "13mancha_tergitos_femeas" / "mancha_no_ultimo_tergito_femea.jpg"),
+        ("Sem mancha", "Sem mancha no último tergito da fêmea", OBS / "13mancha_tergitos_femeas" / "sem_mancha_no_ultimo_tergito_femea.jpg"),
+    ],
+    "veias transversais enfumaçadas": [
+        ("Enfumaçadas",     "Veias transversais enfumaçadas",     OBS / "14veias_enfumacadas" / "veia_enfumacada.jpg"),
+        ("Sem enfumaçamento", "Veias transversais sem enfumaçamento", OBS / "14veias_enfumacadas" / "sem_veia_enfumacada.jpg"),
     ],
 }
 
 FOTOS_REFERENCIA = set(ABAS_POR_CARACTERISTICA.keys())
 
 # Características sem foto ainda — exibem botão ⓘ com placeholder
-PLACEHOLDERS_REFERENCIA = {
-    "mesonoto brilho/fosco",
-    "faixas tergitos fêmeas (espessura e coloração)",
-    "coloração escura últimos tergitos (macho)",
-    "faixas tergitos interrompidas",
-    "mancha nos últimos  tergitos macho",
-    "mancha nos últimos  tergitos fêmeas",
-    "veias transversais enfumaçadas",
-}
+PLACEHOLDERS_REFERENCIA: set[str] = set()
 
 # ── Grupos crípticos ──────────────────────────────────────────────────────────
 GRUPOS_CRIPTICOS: dict[str, set[str]] = {

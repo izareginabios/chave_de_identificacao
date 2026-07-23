@@ -563,6 +563,18 @@ if identificar:
     sim_pct      = round(melhor["Similaridade"] * 100, 1)
     nome_especie = melhor["Espécie"]
 
+    # Persiste resultados para reruns (ex: ao clicar em botões dentro dos resultados)
+    st.session_state["_resultados"]   = resultados
+    st.session_state["_sim_pct"]      = sim_pct
+    st.session_state["_nome_especie"] = nome_especie
+
+if not identificar and "_resultados" in st.session_state:
+    resultados   = st.session_state["_resultados"]
+    sim_pct      = st.session_state["_sim_pct"]
+    nome_especie = st.session_state["_nome_especie"]
+
+if identificar or "_resultados" in st.session_state:
+
     # Banner do resultado principal
     st.markdown(f"""
     <div style="

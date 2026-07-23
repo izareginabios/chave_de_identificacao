@@ -392,6 +392,18 @@ def mostrar_referencia(caracteristica: str) -> None:
                 )
 
 
+# ── Modal prancha da espécie identificada ─────────────────────────────────────
+
+@st.dialog("Prancha Fotográfica", width="large")
+def mostrar_prancha_especie(foto_path: Path, nome: str, sim: float) -> None:
+    st.markdown(
+        f"<h4 style='text-align:center; color:inherit; margin-bottom:0.8rem;'>"
+        f"<em>{nome}</em> — Similaridade: {sim}%</h4>",
+        unsafe_allow_html=True,
+    )
+    st.image(str(foto_path), use_container_width=True)
+
+
 # ── Modal placeholder (sem imagem ainda) ──────────────────────────────────────
 
 @st.dialog("Referência Fotográfica", width="large")
@@ -556,31 +568,8 @@ if identificar:
     </div>
     """, unsafe_allow_html=True)
 
-    # Prancha fotográfica da espécie (se disponível)
+    # Prancha fotográfica da espécie (disponível via botão no alerta)
     foto_esp = FOTOS_ESPECIES.get(nome_especie.lower().strip())
-    if foto_esp and foto_esp.exists():
-        st.markdown(
-            f"<h4 style='color:inherit; margin-bottom:0.5rem;'>"
-            f"Prancha fotográfica — <em>{nome_com_grupo(nome_especie)}</em></h4>",
-            unsafe_allow_html=True,
-        )
-        col_foto, col_info = st.columns([0.55, 0.45])
-        with col_foto:
-            st.image(str(foto_esp), caption=nome_especie, use_container_width=True)
-        with col_info:
-            st.markdown(f"""
-            <div style="background:var(--secondary-background-color); border-left:4px solid #2d6aad;
-                        padding:1rem 1.2rem; border-radius:0 0.5rem 0.5rem 0;
-                        margin-top:0.5rem;">
-                <p style="margin:0; font-size:0.95rem; color:inherit; font-weight:600;">
-                    {nome_especie}
-                </p>
-                <p style="margin:0.4rem 0 0; font-size:0.88rem; color:inherit; opacity:0.75;">
-                    Similaridade: <strong>{sim_pct}%</strong>
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        st.markdown("<div style='margin-bottom:1rem'></div>", unsafe_allow_html=True)
 
     # ── Calcula top5 e espécies crípticas ────────────────────────────────────
     top5 = resultados.head(5).copy()
@@ -626,6 +615,9 @@ if identificar:
                 </p>
             </div>
             """, unsafe_allow_html=True)
+            if foto_esp and foto_esp.exists():
+                if st.button("📷 Ver prancha fotográfica", key="btn_prancha_zap"):
+                    mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
         else:
             grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
             nomes_detectados  = ", ".join(f"*{n}*" for n, _, _ in cripticas_top5)
@@ -646,6 +638,9 @@ if identificar:
                 </p>
             </div>
             """, unsafe_allow_html=True)
+            if foto_esp and foto_esp.exists():
+                if st.button("📷 Ver prancha fotográfica", key="btn_prancha_crit"):
+                    mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
         with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
             st.markdown("""
@@ -840,6 +835,12 @@ pois os caracteres externos não permitem distingui-las com segurança.
                     f"<span style='font-style:italic;'>{lista_nomes}</span></div>",
                     unsafe_allow_html=True,
                 )
+
+    else:
+        # Espécie sem alerta de crípticas — mostra botão de prancha se disponível
+        if foto_esp and foto_esp.exists():
+            if st.button("📷 Ver prancha fotográfica", key="btn_prancha_normal"):
+                mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────
     st.markdown(

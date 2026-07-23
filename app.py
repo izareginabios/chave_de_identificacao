@@ -83,8 +83,7 @@ PLACEHOLDERS_REFERENCIA: set[str] = set()
 # ── Grupos crípticos ──────────────────────────────────────────────────────────
 GRUPOS_CRIPTICOS: dict[str, set[str]] = {
     "melanogaster": {
-        "d. ananassae", "d. malerkotliana", "d. melanogaster", "d. simulans",
-        "d. kikkawai", "d. suzukii",
+        "d. melanogaster", "d. simulans",
     },
     "repleta": {
         "d. senei", "d. hydei", "d. mercatorum", "d. paranaensis",
@@ -227,13 +226,9 @@ FOTOS_ESPECIES: dict = {
     # Prancha comparativa Zaprionus
     "z. indianus":         ESP / "Zaprionus_.jpg",
     "z.tuberculatus":      ESP / "Zaprionus_.jpg",
-    # Prancha comparativa grupo melanogaster (todas as espécies do grupo)
+    # Prancha comparativa grupo melanogaster
     "d. melanogaster":     ESP / "Melanogaster_.jpg",
     "d. simulans":         ESP / "Melanogaster_.jpg",
-    "d. ananassae":        ESP / "Melanogaster_.jpg",
-    "d. malerkotliana":    ESP / "Melanogaster_.jpg",
-    "d. kikkawai":         ESP / "Melanogaster_.jpg",
-    "d. suzukii":          ESP / "Melanogaster_.jpg",
     # Prancha subgrupo sturtevanti
     "d. dacunhai":         ESP / "d_sturtevanti.jpg",
     "d. lehrmanae":        ESP / "d_sturtevanti.jpg",

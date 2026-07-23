@@ -616,12 +616,8 @@ if identificar:
             </div>
             """, unsafe_allow_html=True)
             if foto_esp and foto_esp.exists():
-                st.markdown(
-                    "<p style='font-size:1.2rem; font-weight:700; color:#e67e22; margin:0.8rem 0 0.3rem;'>"
-                    "<span style='font-size:1.6rem; font-weight:900;'>!</span> Comparar espécies crípticas</p>",
-                    unsafe_allow_html=True,
-                )
-                st.image(str(foto_esp), use_container_width=True)
+                if st.button("! Comparar espécies crípticas", key="btn_prancha_zap"):
+                    mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
         else:
             grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
             nomes_detectados  = ", ".join(f"*{n}*" for n, _, _ in cripticas_top5)
@@ -643,12 +639,8 @@ if identificar:
             </div>
             """, unsafe_allow_html=True)
             if foto_esp and foto_esp.exists():
-                st.markdown(
-                    "<p style='font-size:1.2rem; font-weight:700; color:#e67e22; margin:0.8rem 0 0.3rem;'>"
-                    "<span style='font-size:1.6rem; font-weight:900;'>!</span> Comparar espécies crípticas</p>",
-                    unsafe_allow_html=True,
-                )
-                st.image(str(foto_esp), use_container_width=True)
+                if st.button("! Comparar espécies crípticas", key="btn_prancha_crit"):
+                    mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
         with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
             st.markdown("""
@@ -845,14 +837,9 @@ pois os caracteres externos não permitem distingui-las com segurança.
                 )
 
     else:
-        # Espécie sem alerta de crípticas — exibe prancha se disponível
         if foto_esp and foto_esp.exists():
-            st.markdown(
-                "<p style='font-size:1.2rem; font-weight:700; color:#e67e22; margin:0.8rem 0 0.3rem;'>"
-                "<span style='font-size:1.6rem; font-weight:900;'>!</span> Comparar espécies crípticas</p>",
-                unsafe_allow_html=True,
-            )
-            st.image(str(foto_esp), use_container_width=True)
+            if st.button("! Comparar espécies crípticas", key="btn_prancha_normal"):
+                mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────
     st.markdown(

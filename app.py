@@ -616,7 +616,7 @@ if identificar:
             </div>
             """, unsafe_allow_html=True)
             if foto_esp and foto_esp.exists():
-                if st.button("📷 Ver prancha fotográfica", key="btn_prancha_zap"):
+                if st.button("Comparar espécies crípticas", key="btn_prancha_zap"):
                     mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
         else:
             grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
@@ -639,7 +639,7 @@ if identificar:
             </div>
             """, unsafe_allow_html=True)
             if foto_esp and foto_esp.exists():
-                if st.button("📷 Ver prancha fotográfica", key="btn_prancha_crit"):
+                if st.button("Comparar espécies crípticas", key="btn_prancha_crit"):
                     mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
         with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
@@ -839,7 +839,7 @@ pois os caracteres externos não permitem distingui-las com segurança.
     else:
         # Espécie sem alerta de crípticas — mostra botão de prancha se disponível
         if foto_esp and foto_esp.exists():
-            if st.button("📷 Ver prancha fotográfica", key="btn_prancha_normal"):
+            if st.button("Comparar espécies crípticas", key="btn_prancha_normal"):
                 mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────

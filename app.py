@@ -411,8 +411,8 @@ def mostrar_referencia(caracteristica: str) -> None:
 @st.dialog("Prancha Fotográfica", width="large")
 def mostrar_prancha_especie(foto_path: Path, nome: str, sim: float) -> None:
     st.markdown(
-        f"<h4 style='text-align:center; color:inherit; margin-bottom:0.8rem;'>"
-        f"<em>{nome}</em> — Similaridade: {sim}%</h4>",
+        "<h4 style='text-align:center; color:inherit; margin-bottom:0.8rem;'>"
+        "Comparação entre as espécies crípticas</h4>",
         unsafe_allow_html=True,
     )
     st.image(str(foto_path), use_container_width=True)

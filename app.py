@@ -276,6 +276,21 @@ st.markdown("""
     opacity: 0.9;
 }
 
+/* Botão Comparar espécies crípticas */
+[data-testid="stButton"] button[title="Comparar espécies crípticas"] {
+    border: 2.5px solid #cc0000 !important;
+    border-radius: 0.5rem !important;
+    font-weight: 800 !important;
+    color: #cc0000 !important;
+    background: transparent !important;
+    padding: 0.4rem 1rem !important;
+    cursor: pointer !important;
+    font-size: 1.1rem !important;
+}
+[data-testid="stButton"] button[title="Comparar espécies crípticas"]:hover {
+    background: rgba(204,0,0,0.07) !important;
+}
+
 /* Selectbox — container fechado */
 [data-baseweb="select"] > div:first-child {
     min-height: 3.5rem !important;
@@ -615,7 +630,7 @@ if identificar:
             </div>
             """, unsafe_allow_html=True)
             if foto_esp and foto_esp.exists():
-                if st.button("! Comparar espécies crípticas", key="btn_prancha_zap"):
+                if st.button("! Comparar espécies crípticas", key="btn_prancha_zap", help="Comparar espécies crípticas"):
                     mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
         else:
             grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
@@ -638,7 +653,7 @@ if identificar:
             </div>
             """, unsafe_allow_html=True)
             if foto_esp and foto_esp.exists():
-                if st.button("! Comparar espécies crípticas", key="btn_prancha_crit"):
+                if st.button("! Comparar espécies crípticas", key="btn_prancha_crit", help="Comparar espécies crípticas"):
                     mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
         with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
@@ -837,7 +852,7 @@ pois os caracteres externos não permitem distingui-las com segurança.
 
     else:
         if foto_esp and foto_esp.exists():
-            if st.button("! Comparar espécies crípticas", key="btn_prancha_normal"):
+            if st.button("! Comparar espécies crípticas", key="btn_prancha_normal", help="Comparar espécies crípticas"):
                 mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
     # ── Top 5 ─────────────────────────────────────────────────────────────────

@@ -24,12 +24,19 @@ def carregar_dados() -> pd.DataFrame:
     return df
 
 
+TOLERANCIA_NUMERICA = {
+    "indice costal": 0.3,
+}
+
+
 def calcular_similaridade(linha: pd.Series, entrada: dict, caracteristicas) -> float:
     """
     Calcula a similaridade morfológica entre uma espécie da base de dados
     e as características informadas pelo usuário.
 
     Ignora características marcadas como 'Desconhecido' ou vazias.
+    Para características numéricas com tolerância definida (ex: índice costal),
+    considera match se a diferença absoluta for ≤ à tolerância.
     Retorna um valor entre 0.0 (nenhuma correspondência) e 1.0 (correspondência total).
     """
     total = 0
@@ -41,8 +48,15 @@ def calcular_similaridade(linha: pd.Series, entrada: dict, caracteristicas) -> f
             continue
         total += 1
         valor_base = str(linha[c]).strip().lower()
-        # Verifica se o valor do usuário está contido no valor da base
-        if valor_usuario in valor_base:
+        # Comparação numérica com tolerância para características específicas
+        tolerancia = TOLERANCIA_NUMERICA.get(c.lower())
+        if tolerancia is not None:
+            try:
+                if abs(float(valor_usuario) - float(valor_base)) <= tolerancia:
+                    match += 1
+            except ValueError:
+                pass
+        elif valor_usuario in valor_base:
             match += 1
     # Evita divisão por zero
     if total == 0:

@@ -69,7 +69,7 @@ ABAS_POR_CARACTERISTICA = {
         ("Com mancha", "Mancha no último tergito da fêmea",    OBS / "13mancha_tergitos_femeas" / "mancha_no_ultimo_tergito_femea.jpg"),
         ("Sem mancha", "Sem mancha no último tergito da fêmea", OBS / "13mancha_tergitos_femeas" / "sem_mancha_no_ultimo_tergito_femea.jpg"),
     ],
-    "veias transversais enfumaçadas": [
+    "aspecto das asas": [
         ("Enfumaçadas",     "Veias transversais enfumaçadas",     OBS / "14veias_enfumacadas" / "veia_enfumacada.jpg"),
         ("Sem enfumaçamento", "Veias transversais sem enfumaçamento", OBS / "14veias_enfumacadas" / "sem_veia_enfumacada.jpg"),
     ],

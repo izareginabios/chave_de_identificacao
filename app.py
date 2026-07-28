@@ -18,15 +18,15 @@ ABAS_POR_CARACTERISTICA = {
         ("Amarela", "Coloração amarela", OBS / "1_coloracao" / "especies_amarelas.jpg"),
         ("Escura",  "Coloração escura",  OBS / "1_coloracao" / "especies_escuras.jpg"),
     ],
-    "c.p. escutelares": [
+    "cerdas pré-escutelares": [
         ("Presentes", "Cerdas pré-escutelares presentes",   OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_presentes.jpg"),
         ("Ausentes",  "Ausência de cerdas pré-escutelares", OBS / "2c_p_escutelares" / "cerdas_pre_escutelares_ausentes.jpg"),
     ],
-    "c.escutelares": [
+    "cerdas anteriores escutelares": [
         ("Convergente", "Cerdas escutelares anteriores convergentes", OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_convergentes.jpg"),
         ("Divergente",  "Cerdas escutelares anteriores divergentes",  OBS / "3c_escutelares" / "cerdas_escutelares_anteriores_divergentes.jpg"),
     ],
-    "c.cuneiformis": [
+    "cerdas cuneiformis": [
         ("Presentes", "Fileira de cerdas cuneiformes na parte interna do 1º fêmur", OBS / "4c_cuneiformis" / "4_fileira_de_cerdas_cuneiformes_na_parte_interna_do_primeiro_femur.jpg"),
         ("Ausentes",  "Sem cerdas cuneiformes no fêmur",                            OBS / "4c_cuneiformis" / "4_sem_cerdas_cuneiformes_no_femur.jpg"),
     ],
@@ -34,7 +34,7 @@ ABAS_POR_CARACTERISTICA = {
         ("Presentes",    "Pentes sexuais presentes",                              OBS / "5pentes_sexuais" / "5_pentes_sexuais.jpg"),
         ("Distribuídos", "Pentes sexuais distribuídos ao longo dos tarsos do macho", OBS / "5pentes_sexuais" / "5_pentes_sexuais_distribuidos_ao_longo_dos_tarsos_do_macho.jpg"),
     ],
-    "i. costal": [
+    "indice costal": [
         ("Referência", "Índice costal — referência de medição", OBS / "6i_costal" / "6_indice_costal..jpg"),
     ],
     "mesonoto cor": [
@@ -65,13 +65,14 @@ ABAS_POR_CARACTERISTICA = {
         ("Com mancha", "Mancha no último tergito do macho",    OBS / "12mancha_tergitos_macho" / "mancha_no_ultimo_tergito_do_macho.jpg"),
         ("Sem mancha", "Sem mancha no último tergito do macho", OBS / "12mancha_tergitos_macho" / "sem_mancha_no_ultimo_tergito_do_macho.jpg"),
     ],
-    "mancha nos últimos  tergitos fêmeas": [
+    "mancha nos últimos  tergitos fêmea": [
         ("Com mancha", "Mancha no último tergito da fêmea",    OBS / "13mancha_tergitos_femeas" / "mancha_no_ultimo_tergito_femea.jpg"),
         ("Sem mancha", "Sem mancha no último tergito da fêmea", OBS / "13mancha_tergitos_femeas" / "sem_mancha_no_ultimo_tergito_femea.jpg"),
     ],
-    "aspecto das asas": [
-        ("Enfumaçadas",     "Veias transversais enfumaçadas",     OBS / "14veias_enfumacadas" / "veia_enfumacada.jpg"),
-        ("Sem enfumaçamento", "Veias transversais sem enfumaçamento", OBS / "14veias_enfumacadas" / "sem_veia_enfumacada.jpg"),
+    "aspecto da asa": [
+        ("Hialina",         "Asa hialina (transparente)",         OBS / "14veias_enfumacadas" / "sem_veia_enfumacada.jpg"),
+        ("Veia enfumaçada", "Veias transversais enfumaçadas",     OBS / "14veias_enfumacadas" / "veia_enfumacada.jpg"),
+        ("Mancha no macho", "Mancha na asa do macho",             OBS / "14veias_enfumacadas" / "veia_enfumacada.jpg"),
     ],
 }
 
@@ -518,7 +519,7 @@ for i, c in enumerate(caracteristicas):
             )
 
         # ── Campo (dropdown ou input) ──
-        if c.lower() == "i. costal":
+        if c.lower() == "indice costal":
             valor = st.text_input(
                 c, placeholder="Digite o valor numérico",
                 label_visibility="collapsed", key=f"input_{c}",

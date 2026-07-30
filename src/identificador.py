@@ -52,7 +52,7 @@ def calcular_similaridade(linha: pd.Series, entrada: dict, caracteristicas) -> f
         tolerancia = TOLERANCIA_NUMERICA.get(c.lower())
         if tolerancia is not None:
             try:
-                if abs(float(valor_usuario) - float(valor_base)) <= tolerancia:
+                if abs(float(valor_usuario.replace(",", ".")) - float(valor_base.replace(",", "."))) <= tolerancia:
                     match += 1
             except ValueError:
                 pass

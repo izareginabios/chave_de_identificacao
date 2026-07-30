@@ -46,8 +46,11 @@ def calcular_similaridade(linha: pd.Series, entrada: dict, caracteristicas) -> f
         # Desconsidera características não informadas
         if valor_usuario == "" or valor_usuario == "desconhecido":
             continue
-        total += 1
         valor_base = str(linha[c]).strip().lower()
+        # Ignora característica ausente na base de dados
+        if valor_base == "" or valor_base == "nan":
+            continue
+        total += 1
         # Comparação numérica com tolerância para características específicas
         tolerancia = TOLERANCIA_NUMERICA.get(c.lower())
         if tolerancia is not None:
@@ -56,7 +59,7 @@ def calcular_similaridade(linha: pd.Series, entrada: dict, caracteristicas) -> f
                     match += 1
             except ValueError:
                 pass
-        elif valor_usuario in valor_base:
+        elif valor_usuario == valor_base:
             match += 1
     # Evita divisão por zero
     if total == 0:

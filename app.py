@@ -490,7 +490,13 @@ for i, c in enumerate(caracteristicas):
     with cols[i % 3]:
         tem_foto        = c.lower() in FOTOS_REFERENCIA
         tem_placeholder = c.lower() in PLACEHOLDERS_REFERENCIA
-        label_display   = c.capitalize() if c.lower() == "coloração escura últimos tergitos (macho)" else c
+        _LABELS_CURTOS = {
+            "presença de tubérculo proeminente na superfície externa do fêmur das pernas anteriores": "Tubérculo no fêmur anterior",
+        }
+        label_display = (
+            _LABELS_CURTOS.get(c.lower())
+            or (c.capitalize() if c.lower() == "coloração escura últimos tergitos (macho)" else c)
+        )
 
         # ── Bloco label + ⓘ na mesma linha ──
         if tem_foto or tem_placeholder:

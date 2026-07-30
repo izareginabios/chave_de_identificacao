@@ -554,7 +554,9 @@ if identificar:
         for _, linha in df.iterrows()
     ]
 
-    resultados = pd.DataFrame(resultados).sort_values("Similaridade", ascending=False)
+    resultados = pd.DataFrame(resultados).sort_values(
+        ["Similaridade", "Espécie"], ascending=[False, True]
+    )
     melhor     = resultados.iloc[0]
 
     if melhor["Similaridade"] == 0:

@@ -90,9 +90,6 @@ GRUPOS_CRIPTICOS: dict[str, set[str]] = {
         "d. senei", "d. hydei", "d. mercatorum", "d. paranaensis",
         "d. antonietae", "d. buzzatii",
     },
-    "willistoni": {
-        "d. bocainensis", "d. capricorni", "d. nebulosa", "d. paulistorum",
-    },
     "saltans": {
         "d. emarginata", "d. neoelliptica", "d. neosaltans", "d. austrosaltans",
         "d. prosaltans", "d. pseudosaltans", "d. dacunhai", "d. lehrmanae",
@@ -279,17 +276,23 @@ st.markdown("""
 
 /* Botão Comparar espécies crípticas */
 [data-testid="stButton"] button[title="Comparar espécies crípticas"] {
-    border: 2.5px solid #cc0000 !important;
-    border-radius: 0.5rem !important;
+    border: none !important;
+    border-radius: 0.6rem !important;
     font-weight: 800 !important;
-    color: #cc0000 !important;
-    background: transparent !important;
-    padding: 0.4rem 1rem !important;
+    color: #ffffff !important;
+    background: #cc0000 !important;
+    padding: 1rem 2rem !important;
     cursor: pointer !important;
-    font-size: 1.1rem !important;
+    font-size: 1.5rem !important;
+    width: 100% !important;
+    letter-spacing: 0.03em !important;
+    box-shadow: 0 4px 14px rgba(204,0,0,0.4) !important;
+    transition: box-shadow 0.2s, transform 0.15s !important;
 }
 [data-testid="stButton"] button[title="Comparar espécies crípticas"]:hover {
-    background: rgba(204,0,0,0.07) !important;
+    background: #aa0000 !important;
+    box-shadow: 0 6px 20px rgba(204,0,0,0.55) !important;
+    transform: translateY(-1px) !important;
 }
 
 /* Selectbox — container fechado */
@@ -561,7 +564,7 @@ if identificar:
     ]
 
     resultados = pd.DataFrame(resultados).sort_values(
-        ["Similaridade", "Espécie"], ascending=[False, True]
+        "Similaridade", ascending=False, kind="stable"
     )
     melhor     = resultados.iloc[0]
 
@@ -588,16 +591,16 @@ if identificar or "_resultados" in st.session_state:
     st.markdown(f"""
     <div style="
         background: linear-gradient(135deg, #1b6f3c 0%, #28a056 100%);
-        color: white; padding: 1.3rem 1.8rem; border-radius: 0.75rem;
+        color: white; padding: 0.8rem 1.4rem; border-radius: 0.75rem;
         margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(27,111,60,0.25);
     ">
-        <p style="margin:0 0 0.2rem; font-size:0.82rem; opacity:0.8; font-weight:500; letter-spacing:.05em;">
+        <p style="margin:0 0 0.15rem; font-size:0.78rem; opacity:0.8; font-weight:500; letter-spacing:.05em;">
             ESPÉCIE MAIS PROVÁVEL
         </p>
-        <p style="margin:0; font-size:4.65rem; font-weight:700; font-style:italic;">
+        <p style="margin:0; font-size:2.8rem; font-weight:700; font-style:italic;">
             {nome_com_grupo(nome_especie)}
         </p>
-        <p style="margin:0.3rem 0 0; font-size:0.95rem; opacity:0.9;">
+        <p style="margin:0.2rem 0 0; font-size:0.88rem; opacity:0.9;">
             Similaridade morfológica: <strong>{sim_pct}%</strong>
         </p>
     </div>
@@ -677,11 +680,37 @@ if identificar or "_resultados" in st.session_state:
                 if st.button("! Comparar espécies crípticas", key="btn_prancha_crit", help="Comparar espécies crípticas"):
                     mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
 
-        with st.expander("Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"):
+        # Determina se é exclusivamente grupo melanogaster
+        _grupos_exp = sorted({g for _, g, _ in cripticas_top5}) if not zaprionus_top3 else []
+        _is_mel = _grupos_exp == ["melanogaster"]
+
+        if _is_mel:
+            st.markdown("""
+<style>
+.mel-exp-sentinel ~ div [data-testid="stExpander"] details,
+.mel-exp-sentinel + div [data-testid="stExpander"] details {
+    border: 2.5px solid #1a3d6e !important;
+    background: rgba(26,61,110,0.04) !important;
+    border-radius: 0.6rem;
+}
+.mel-exp-sentinel ~ div [data-testid="stExpander"] summary p,
+.mel-exp-sentinel + div [data-testid="stExpander"] summary p {
+    color: #1a3d6e !important;
+    font-weight: 700 !important;
+    font-size: 1.15rem !important;
+}
+</style>
+<div class="mel-exp-sentinel"></div>
+""", unsafe_allow_html=True)
+            expander_titulo = "Espécies do grupo Melanogaster"
+        else:
+            expander_titulo = "Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"
+
+        with st.expander(expander_titulo):
             st.markdown("""
 **O que são "espécies crípticas"?**
 São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.
-Nos grupos *melanogaster*, *repleta*, *willistoni*, *saltans*, *inermis* e *vittiger*, a distinção
+Nos grupos *melanogaster*, *repleta*, *saltans*, *inermis* e *vittiger*, a distinção
 segura só é possível pela análise do **edeago** (órgão copulador masculino),
 pois os caracteres externos não permitem distingui-las com segurança.
             """)

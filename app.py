@@ -719,6 +719,65 @@ if identificar or "_resultados" in st.session_state:
             expander_titulo = "Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"
 
         with st.expander(expander_titulo):
+          if _is_mel:
+            # ── Layout diagnóstico grupo melanogaster ─────────────────────────
+            _PASTA_MEL = Path.home() / "Documents" / "chaveapp" / "Grupo melanogaster"
+            _ESPECIES_MEL = [
+                ("D. melanogaster",  "melanogaster"),
+                ("D. simulans",      "simulans"),
+                ("D. ananassae",     "ananassae"),
+                ("D. malerkotliana", "malerkotliana"),
+                ("D. kikkawai",      "kikkawai"),
+                ("D. suzukii",       "suzukii"),
+            ]
+            _CARACT_MEL = [
+                ("Aspecto dos tergitos (fêmea/macho)", "tergitos"),
+                ("Pentes sexuais (machos)",             "pentes"),
+                ("Estrutura do Arco Genital / Edeago",  "edeago"),
+                ("Aspecto da Asa",                      "asa"),
+            ]
+            sim_por_esp_mel = {r["Espécie"]: r["Similaridade"] for _, r in resultados.iterrows()}
+            nomes_top3 = [r["Espécie"] for _, r in top3.iterrows()]
+
+            for titulo_c, chave_c in _CARACT_MEL:
+                st.markdown(
+                    f"<h4 style='color:#1a3d6e; margin:1.2rem 0 0.5rem; font-size:1.25rem; font-weight:700;'>"
+                    f"{titulo_c}</h4>",
+                    unsafe_allow_html=True,
+                )
+                cols_mel = st.columns(6)
+                for col_mel, (nome_sp, chave_sp) in zip(cols_mel, _ESPECIES_MEL):
+                    with col_mel:
+                        sim_sp = round(sim_por_esp_mel.get(nome_sp, 0.0) * 100, 1)
+                        esta_top = nome_sp in nomes_top3
+                        borda = (
+                            "border:2px solid #1a3d6e; background:rgba(26,61,110,0.07);"
+                            if esta_top else
+                            "border:1px solid #dee2e6; background:#f8f9fa;"
+                        )
+                        st.markdown(
+                            f"<p style='text-align:center; font-style:italic; font-size:0.82rem; "
+                            f"font-weight:600; margin-bottom:0.3rem; padding:0.3rem; "
+                            f"border-radius:0.4rem; {borda}'>"
+                            f"{nome_sp}<br>"
+                            f"<span style='color:#555; font-size:0.75em; font-style:normal;'>"
+                            f"{sim_sp}% sim.</span></p>",
+                            unsafe_allow_html=True,
+                        )
+                        img_path = _PASTA_MEL / f"{chave_sp}_{chave_c}.jpg"
+                        if img_path.exists():
+                            st.image(str(img_path), use_container_width=True)
+                        else:
+                            st.markdown(
+                                "<div style='height:120px; background:#e9ecef; border-radius:0.4rem; "
+                                "display:flex; align-items:center; justify-content:center; "
+                                "color:#adb5bd; font-size:1.4rem; margin-bottom:0.4rem;'>"
+                                "📷</div>",
+                                unsafe_allow_html=True,
+                            )
+                st.divider()
+
+          else:
             st.markdown("""
 **O que são "espécies crípticas"?**
 São espécies reprodutivamente isoladas que compartilham morfologia externa muito semelhante.

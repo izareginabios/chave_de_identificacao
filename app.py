@@ -659,6 +659,23 @@ if identificar or "_resultados" in st.session_state:
         else:
             grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
             nomes_detectados  = ", ".join(f"*{n}*" for n, _, _ in cripticas_top5)
+            if grupos_detectados == ["melanogaster"]:
+                texto_alerta = (
+                    f"{nomes_detectados} pertencem ao(s) grupo(s) "
+                    f"<strong>{', '.join(grupos_detectados)}</strong>, "
+                    f"considerados grupos de \"espécies crípticas\". "
+                    f"A identificação definitiva requer análise de outras características como "
+                    f"<strong>coloração dos tergitos</strong> e <strong>estrutura do arco genital</strong>."
+                )
+            else:
+                texto_alerta = (
+                    f"{nomes_detectados} pertencem ao(s) grupo(s) "
+                    f"<strong>{', '.join(grupos_detectados)}</strong>, "
+                    f"considerados grupos de \"espécies crípticas\". "
+                    f"A identificação definitiva <strong>requer análise do edeago</strong> "
+                    f"(morfologia interna da terminália masculina), "
+                    f"pois os caracteres externos não permitem distingui-las com segurança."
+                )
             st.markdown(f"""
             <div style="background:#fff3cd; border-left:5px solid #e67e22;
                         padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
@@ -667,12 +684,7 @@ if identificar or "_resultados" in st.session_state:
                     ! Atenção — "Espécies crípticas" detectadas nas sugestões
                 </p>
                 <p style="margin:0; font-size:1.1rem; color:#5a3800;">
-                    {nomes_detectados} pertencem ao(s) grupo(s)
-                    <strong>{', '.join(grupos_detectados)}</strong>,
-                    considerados grupos de "espécies crípticas".
-                    A identificação definitiva <strong>requer análise do edeago</strong>
-                    (morfologia interna da terminália masculina),
-                    pois os caracteres externos não permitem distingui-las com segurança.
+                    {texto_alerta}
                 </p>
             </div>
             """, unsafe_allow_html=True)

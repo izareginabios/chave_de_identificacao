@@ -79,7 +79,9 @@ ABAS_POR_CARACTERISTICA = {
 FOTOS_REFERENCIA = set(ABAS_POR_CARACTERISTICA.keys())
 
 # Características sem foto ainda — exibem botão ⓘ com placeholder
-PLACEHOLDERS_REFERENCIA: set[str] = set()
+PLACEHOLDERS_REFERENCIA: set[str] = {
+    "presença de tubérculo proeminente na superfície externa do fêmur das pernas anteriores",
+}
 
 # ── Grupos crípticos ──────────────────────────────────────────────────────────
 GRUPOS_CRIPTICOS: dict[str, set[str]] = {

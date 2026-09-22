@@ -723,7 +723,7 @@ if identificar or "_resultados" in st.session_state:
         with st.expander(expander_titulo):
           if _is_mel:
             # ── Layout diagnóstico grupo melanogaster ─────────────────────────
-            _PASTA_MEL = Path.home() / "Documents" / "chaveapp" / "Grupo melanogaster"
+            _PASTA_MEL = RAIZ / "prancha_fotografica" / "grupo_melanogaster"
             _ESPECIES_MEL = [
                 ("D. melanogaster",  "melanogaster"),
                 ("D. simulans",      "simulans"),

@@ -771,10 +771,26 @@ if identificar or "_resultados" in st.session_state:
                             st.image(str(img_path), use_container_width=True)
                         else:
                             st.markdown(
-                                "<div style='height:120px; background:#e9ecef; border-radius:0.4rem; "
-                                "display:flex; align-items:center; justify-content:center; "
-                                "color:#adb5bd; font-size:1.4rem; margin-bottom:0.4rem;'>"
-                                "📷</div>",
+                                "<div style='"
+                                "height:120px; border-radius:0.4rem; margin-bottom:0.4rem; "
+                                "border:2px dashed #ced4da; background:transparent; "
+                                "display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;'>"
+                                "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='none' "
+                                "viewBox='0 0 24 24' stroke='#adb5bd' stroke-width='1.5'>"
+                                "<path stroke-linecap='round' stroke-linejoin='round' "
+                                "d='M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 "
+                                "7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 "
+                                "21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 "
+                                "2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 "
+                                "51.688 51.688 0 0 0-2.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z'/>"
+                                "<path stroke-linecap='round' stroke-linejoin='round' "
+                                "d='M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z'/>"
+                                "</svg>"
+                                "<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' "
+                                "viewBox='0 0 24 24' stroke='#adb5bd' stroke-width='1.8'>"
+                                "<path stroke-linecap='round' stroke-linejoin='round' d='M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18'/>"
+                                "</svg>"
+                                "</div>",
                                 unsafe_allow_html=True,
                             )
                 st.divider()

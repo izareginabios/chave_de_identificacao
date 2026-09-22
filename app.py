@@ -102,6 +102,11 @@ TODAS_CRIPTICAS: set[str] = {sp for g in GRUPOS_CRIPTICOS.values() for sp in g}
 
 # Grupos apenas para exibição de label (não entram no alerta de crípticas)
 GRUPOS_LABEL: dict[str, str] = {
+    # melanogaster (grupo amplo)
+    "d. ananassae":       "melanogaster",
+    "d. malerkotliana":   "melanogaster",
+    "d. kikkawai":        "melanogaster",
+    "d. suzukii":         "melanogaster",
     # Zaprionus
     "z. tuberculatus":    "inermis",
     "z.tuberculatus":     "inermis",

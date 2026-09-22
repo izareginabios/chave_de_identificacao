@@ -665,7 +665,7 @@ if identificar or "_resultados" in st.session_state:
                     mostrar_prancha_especie(foto_esp, nome_especie, sim_pct)
         else:
             grupos_detectados = sorted({g for _, g, _ in cripticas_top5})
-            nomes_detectados  = ", ".join(f"*{n}*" for n, _, _ in cripticas_top5)
+            nomes_detectados  = ", ".join(f"<em>{n}</em>" for n, _, _ in cripticas_top5)
             if grupos_detectados == ["melanogaster"]:
                 texto_alerta = (
                     f"{nomes_detectados} pertencem ao(s) grupo(s) "
@@ -688,7 +688,7 @@ if identificar or "_resultados" in st.session_state:
                         padding:1rem 1.4rem; border-radius:0 0.6rem 0.6rem 0;
                         margin:1rem 0;">
                 <p style="margin:0 0 0.3rem; font-size:1.3rem; font-weight:700; color:#7d4e00;">
-                    ! Atenção — "Espécies crípticas" detectadas nas sugestões
+                    Atenção "Espécies crípticas" detectadas nas sugestões
                 </p>
                 <p style="margin:0; font-size:1.1rem; color:#5a3800;">
                     {texto_alerta}

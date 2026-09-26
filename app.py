@@ -721,7 +721,7 @@ if identificar or "_resultados" in st.session_state:
 </style>
 <div class="mel-exp-sentinel"></div>
 """, unsafe_allow_html=True)
-            expander_titulo = "Espécies do grupo Melanogaster"
+            expander_titulo = "Espécies do grupo melanogaster"
         else:
             expander_titulo = "Características diagnósticas dos grupos de espécies crípticas com maior nível de similaridade"
 

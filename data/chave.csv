@@ -6,7 +6,7 @@ D. melanogaster,amarela,não,convergente,não,não,sim,"2,2",castanho (mel),bril
 D. simulans,amarela,não,convergente,não,não,sim,"2,2",castanho (mel),brilho,finas (escuras),sim,não,não,não,hialina
 D. suzukii,amarela,não,convergente,não,não,sim,3,castanho (mel),brilho,finas (escuras),sim,não,não,não,mancha no macho
 D. nasuta,amarela,não,convergente,sim,não,não,"3,1",castanho,brilho,finas (claras),não,sim,não,não,hialina
-D. immigrans,amarela,não,convergente,sim,não,sim,4,castanho,brilho,finas (escuras),não,sim,não,não,veia enfumaçada
+D. immigrans,amarela,não,convergente,sim,não,não,4,castanho,brilho,finas (escuras),não,sim,não,não,veia enfumaçada
 D. busckii,amarela,não,convergente,não,não,não,3,castanho,brilho,grossas (escuras),não,sim,não,não,hialina
 D. cardini,amarela,não,convergente,não,não,não,"3,8",castanho (escuro),fosco,grossas (escuras),sim,sim,não,não,veia enfumaçada
 D. neocardini,amarela,não,convergente,não,não,não,"3,8",castanho,brilho,grossas (escuras),sim,sim,sim (quadrada),não,hialina
@@ -14,8 +14,8 @@ D. polymorpha,amarela,não,convergente,não,não,não,"3,5",castanho,brilho,gros
 D. bocainensis,amarela,não,divergente,não,não,não,"3,2",castanho (escuro),fosco,grossas (escuras),sim,não,não,não,veia enfumaçada
 D. capricorni,amarela,não,divergente,não,não,não,"2,6",castanho (escuro),brilho,finas (escuras),não,não,não,não,hialina
 D. nebulosa,amarela,não,divergente,não,não,não,"2,5",castanho (mel),brilho,finas (escuras),não,não,não,não,veia enfumaçada
-D. paulistorum,amarela,não,divergente,não,não,não,"2,2",castanho (claro),brilho,finas (escuras),não,não,não,não,hialina
-D. mediopicta,amarela,não,divergente,não,não,não,4,castanho (claro),brilho,finas (escuras),não,sim,sim,não,hialina
+D. paulistorum,amarela,não,divergente,não,não,não,"2,2",castanho claro,brilho,finas (escuras),não,não,não,não,hialina
+D. mediopicta,amarela,não,divergente,não,não,não,4,castanho claro,brilho,finas (escuras),não,sim,sim,não,hialina
 D. mediostriata,amarela,não,divergente,não,não,não,"3,3",castanho (escuro),brilho,grossas (escuras),não,sim,sim,não,hialina
 D. nappae,amarela,não,divergente,não,não,não,"4,5",castanho (escuro),brilho,grossas (escuras),não,sim,não,não,veia enfumaçada
 D. paramediostriata,amarela,não,divergente,sim,não,não,4,castanho,brilho,grossas (escuras),não,sim,sim,não,veia enfumaçada
@@ -43,8 +43,8 @@ D.magalhaesis,escura,não,divergente,não,não,não,"2,2",faixas individualizada
 D.prosaltans,escura,não,divergente,não,não,não,2,faixas individualizadas com uma mancha entre elas,fosco,grossas (escuras),não,não,não,sim,hialina
 D.austrosaltans,escura,não,divergente,não,não,não,2,faixas individualizada e sem mancha entre elas,fosco,grossas (escuras),não,não,não,sim,hialina
 D.pseudosaltans,escura,não,divergente,não,não,não,2,faixas individualizadas,fosco,grossas (escuras),não,não,não,sim,hialina
-D.emarginata,escura,não,divergente,não,não,não,"2,2",castanho (mel),fosco,grossas (escuras),não,não,não,sim,hialina
-D.neoelliptica,escura,não,divergente,não,não,não,"2,3",castanho (mel),fosco,grossas (escuras),sim,não,não,sim,hialina
+D.emarginata,escura,não,divergente,não,não,não,"2,2",castanho mel,fosco,grossas (escuras),não,não,não,sim,hialina
+D.neoelliptica,escura,não,divergente,não,não,não,"2,3",castanho mel,fosco,grossas (escuras),sim,não,não,sim,hialina
 D.neosaltans,escura,não,divergente,não,não,não,2,castanho,fosco,grossas (escuras),não,não,não,sim,hialina
 D. virilis,escura,não,divergente,não,não,não,3,pintas individualizadas,fosco,grossas (escuras),não,não,não,não,hialina
 D. pallidipennis,amarela,sim,divergente,não,não,não,6,castanho (mel),fosco,finas (claras),não,sim,não,não,veia enfumaçada
